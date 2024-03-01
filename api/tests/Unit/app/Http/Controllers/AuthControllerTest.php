@@ -8,18 +8,27 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
+
 
 class AuthControllerTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseTransactions, WithFaker;
+
+    protected $authController;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->authController = new AuthController();
+    }
 
     /**
      *  @test
      */
     public function testRegisterSuccess()
     {
-        $controller = new AuthController();
-
         $requestData = [
             'name' => 'Test User',
             'email' => 'user.to.regitser@payments.com',
@@ -28,7 +37,7 @@ class AuthControllerTest extends TestCase
         ];
         $request = new Request($requestData);
 
-        $response = $controller->register($request);
+        $response = $this->authController->register($request);
 
         $this->assertEquals(201, $response->getStatusCode());
 
@@ -50,7 +59,6 @@ class AuthControllerTest extends TestCase
      */
     public function testRegisterValidationEmptyFildsError()
     {
-        $controller = new AuthController();
 
         $requestData = [
             'name' => '',
@@ -60,7 +68,7 @@ class AuthControllerTest extends TestCase
 
         $request = new Request($requestData);
 
-        $response = $controller->register($request);
+        $response = $this->authController->register($request);
 
         $this->assertEquals(422, $response->getStatusCode());
 
@@ -80,7 +88,6 @@ class AuthControllerTest extends TestCase
      */
     public function testRegisterValidationEmailTypeError()
     {
-        $controller = new AuthController();
 
         $requestData = [
             'name' => 'Test User',
@@ -91,7 +98,7 @@ class AuthControllerTest extends TestCase
 
         $request = new Request($requestData);
 
-        $response = $controller->register($request);
+        $response = $this->authController->register($request);
 
         $this->assertEquals(422, $response->getStatusCode());
 
@@ -107,18 +114,21 @@ class AuthControllerTest extends TestCase
      */
     public function testRegisterValidationEmailExistsError()
     {
-        $controller = new AuthController();
+        $user = User::factory()->create([
+            'email' => 'test.user@payment.com',
+            'password' => bcrypt('password'),
+        ]);
 
         $requestData = [
-            'name' => 'Test User',
-            'email' => 'test.user@payments.com',
+            'name' => $user->name,
+            'email' => $user->email,
             'password' => 'password',
             'password_confirmation' => 'password'
         ];
 
         $request = new Request($requestData);
 
-        $response = $controller->register($request);
+        $response = $this->authController->register($request);
 
         $this->assertEquals(422, $response->getStatusCode());
 
@@ -134,8 +144,6 @@ class AuthControllerTest extends TestCase
      */
     public function testRegisterValidationPasswordAndConfirmPasswordDifferentError()
     {
-        $controller = new AuthController();
-
         $requestData = [
             'name' => 'Test User',
             'email' => 'user.to.regitser@payments.com',
@@ -145,7 +153,7 @@ class AuthControllerTest extends TestCase
 
         $request = new Request($requestData);
 
-        $response = $controller->register($request);
+        $response = $this->authController->register($request);
 
         $this->assertEquals(422, $response->getStatusCode());
 
@@ -154,5 +162,103 @@ class AuthControllerTest extends TestCase
         $this->assertEquals('The password field confirmation does not match.', $responseData['message']['password'][0]);
 
         $this->assertArrayHasKey('password', $responseData['message']);
+    }
+
+    /**
+     *  @test
+     */
+    public function testLoginSuccess()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->post('/api/login', [
+            'email' =>  $user->email,
+            'password' => 'password',
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'Login successfully!',
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email
+                ],
+                'token' => $response->original['token']
+            ]);
+        //$this->assertEquals('Login successfullya!', $response['message']);
+        $this->assertAuthenticatedAs($user);
+    }
+
+
+    /**
+     *  @test
+     */
+    public function testLoginValidationEmptyFildsError()
+    {
+
+        $requestData = [
+            'email' => '',
+            'password' => '',
+        ];
+
+        $request = new Request($requestData);
+
+        $response = $this->authController->login($request);
+
+        $this->assertEquals(422, $response->getStatusCode());
+
+        $responseData = $response->getData(true);
+
+        $this->assertEquals('The email field is required.', $responseData['message']['email'][0]);
+        $this->assertEquals('The password field is required.', $responseData['message']['password'][0]);
+
+        $this->assertArrayHasKey('email', $responseData['message']);
+        $this->assertArrayHasKey('password', $responseData['message']);
+    }
+
+    /**
+     *  @test
+     */
+    public function testLoginInvalidEmailTypeError()
+    {
+
+        $requestData = [
+            'email' => 'invalid',
+            'password' => 'invalid',
+        ];
+
+        $request = new Request($requestData);
+
+        $response = $this->authController->login($request);
+
+        $this->assertEquals(422, $response->getStatusCode());
+
+        $responseData = $response->getData(true);
+
+        $this->assertEquals('The email field must be a valid email address.', $responseData['message']['email'][0]);
+        $this->assertArrayHasKey('email', $responseData['message']);
+    }
+
+    /**
+     *  @test
+     */
+    public function testLoginInvalidLoginOrPasswordError()
+    {
+
+        $requestData = [
+            'email' => 'invalid@payments.com',
+            'password' => 'invalid',
+        ];
+
+        $request = new Request($requestData);
+
+        $response = $this->authController->login($request);
+
+        $this->assertEquals(401, $response->getStatusCode());
+
+        $responseData = $response->getData(true);
+
+        $this->assertEquals('Incorrect email or password.', $responseData['message']);
     }
 }

@@ -4,6 +4,7 @@ namespace Tests\Unit\routes;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\User;
 
 class ApiTest extends TestCase
 {
@@ -19,5 +20,20 @@ class ApiTest extends TestCase
         ]);
 
         $response->assertStatus(201);
+    }
+
+    public function testLoginRouteSuccess()
+    {
+        $user = User::factory()->create([
+            'email' => 'test.user@payment.com',
+            'password' => bcrypt('password'),
+        ]);
+
+        $response = $this->post('/api/login', [
+            'email' =>  $user->email,
+            'password' => 'password',
+        ]);
+
+        $response->assertStatus(200);
     }
 }

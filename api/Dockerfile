@@ -20,6 +20,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN cd /var/www/html/api && \
     composer install && \
     chown -R www-data:www-data bootstrap/cache && \
+    touch storage/logs/laravel.log && \
     chmod -R 777 storage && \
     chmod -R 755 /var/www/html
 
