@@ -186,7 +186,7 @@ class AuthControllerTest extends TestCase
                 ],
                 'token' => $response->original['token']
             ]);
-        //$this->assertEquals('Login successfullya!', $response['message']);
+
         $this->assertAuthenticatedAs($user);
     }
 
@@ -261,4 +261,23 @@ class AuthControllerTest extends TestCase
 
         $this->assertEquals('Incorrect email or password.', $responseData['message']);
     }
+
+
+    /**
+     *  @test
+     */
+    //public function testLogout()
+    //{
+    //    $user = User::factory()->create([
+    //        'email' => 'test.user@payment.com',
+    //        'password' => bcrypt('password'),
+    //    ]);
+    //    $response = $this->actingAs($user, 'api')
+    //        ->json('POST', '/api/logout');
+    //    $response->assertStatus(200)
+    //        ->assertJson([
+    //            'message' => 'Logout successful!'
+    //        ]);
+    //    $this->assertGuest('api');
+    //}
 }

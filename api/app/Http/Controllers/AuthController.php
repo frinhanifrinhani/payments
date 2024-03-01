@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use PhpParser\Node\Stmt\TryCatch;
 
 class AuthController extends Controller
 {
@@ -74,5 +73,18 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Incorrect email or password.'
         ], 401);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return response()->json([
+            'message' => 'Logout successful!'
+        ], 200);
     }
 }
