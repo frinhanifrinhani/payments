@@ -2,10 +2,15 @@ version: '3.8'
 services:
   api:
     build:
-      context: .
+      context: ./api
       dockerfile: Dockerfile
     volumes:
       - .:/var/www/html
     ports:
       - "8000:80"
-    network_mode: bridge
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306"

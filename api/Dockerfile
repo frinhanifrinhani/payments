@@ -7,9 +7,9 @@ RUN apt-get update && \
 
 WORKDIR /var/www/html/
 
-COPY ./api ./api
+COPY . ./api
 
-COPY docker/payments-api.conf /etc/apache2/sites-available/
+COPY payments-api.conf /etc/apache2/sites-available/
 
 RUN a2ensite payments-api.conf && \
     a2dissite 000-default.conf
@@ -23,7 +23,7 @@ RUN cd /var/www/html/api && \
     chmod -R 777 storage && \
     chmod -R 755 /var/www/html
 
-RUN apt-get install nano 
+RUN apt-get install nano
 
 EXPOSE 80
 
