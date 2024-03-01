@@ -1,12 +1,11 @@
 <?php
 
-namespace Tests\Unit\Controllers;
+namespace Tests\Unit\app\Http\Controllers;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
