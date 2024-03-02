@@ -13,5 +13,6 @@ class Balance extends Model
         'name',
         'description',
         'initial_value',
+        'remaining_value',
     ];
 }

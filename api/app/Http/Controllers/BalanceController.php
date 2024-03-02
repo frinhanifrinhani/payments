@@ -21,7 +21,6 @@ class BalanceController extends Controller
                 'name' => ['required', 'string', 'max:255'],
                 'description' => ['required', 'string',  'max:255'],
                 'initial_value' => ['required', 'numeric'],
-
             ]);
         } catch (ValidationException $e) {
             $errors = $e->validator->errors()->toArray();
@@ -32,6 +31,8 @@ class BalanceController extends Controller
                 Response::HTTP_UNPROCESSABLE_ENTITY
             );
         }
+
+        $validatedData['remaining_value'] =  $validatedData['initial_value'];
 
         $balance = Balance::create($validatedData);
 
