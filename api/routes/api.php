@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BalanceController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,16 @@ Route::controller(BalanceController::class)->group(function () {
     Route::middleware('auth:sanctum')->patch('/balance/{id}', 'updateBalance');
     Route::middleware('auth:sanctum')->delete('/balance/{id}', 'deleteBalance');
 });
+
+Route::controller(PaymentController::class)->group(function () {
+    Route::middleware('auth:sanctum')->post('/payment', 'createPayment');
+});
+
+
+Route::fallback(function () {
+    return response()->json(['message' => 'Not found.'], 404);
+});
+
+Route::match(['post', 'patch', 'put', 'delete'], '{any}', function (Request $request) {
+    return response()->json(['message' => 'Method not allowed.'], 405);
+})->where('any', '.*');
