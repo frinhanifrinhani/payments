@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
     {
         return $request->expectsJson() ? null : response()->json(
             [
-                'error' => 'Unauthorized'
+                'message' => 'Unauthorized.'
             ],
             401
         );

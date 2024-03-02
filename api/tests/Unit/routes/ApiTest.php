@@ -5,10 +5,12 @@ namespace Tests\Unit\routes;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\User;
+use Illuminate\Http\Response;
 
 class ApiTest extends TestCase
 {
     use DatabaseTransactions;
+
 
     public function testRegisterRouteSuccess()
     {
@@ -19,7 +21,7 @@ class ApiTest extends TestCase
             'password_confirmation' => 'password'
         ]);
 
-        $response->assertStatus(201);
+        $response->assertStatus(Response::HTTP_CREATED);
     }
 
     public function testLoginRouteSuccess()
@@ -34,6 +36,42 @@ class ApiTest extends TestCase
             'password' => 'password',
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
+    public function testUnauthorizedLogoutError()
+    {
+        $response = $this->post('/api/logout');
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+
+        $response->assertJson([
+            'message' => 'Unauthorized.'
+        ]);
+    }
+
+    public function testUnauthorizedBalancePostRouteError()
+    {
+        $response = $this->post('/api/balance');
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+
+        $response->assertJson([
+            'message' => 'Unauthorized.'
+        ]);
+    }
+
+    public function testBalancePostRouteSuccess()
+    {
+        $user = User::factory()->create();
+        $token = $user->createToken('token')->plainTextToken;
+
+        $response =  $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->post('/api/balance', [
+            'name' => 'Balance Test',
+            'description' => 'Balance Test description',
+            'initial_value' => 10000.99,
+        ]);
+
+        $response->assertStatus(Response::HTTP_CREATED);
     }
 }

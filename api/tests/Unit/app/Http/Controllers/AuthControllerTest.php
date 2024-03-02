@@ -46,6 +46,7 @@ class AuthControllerTest extends TestCase
         $this->assertArrayHasKey('user', $responseData);
         $this->assertEquals($requestData['name'], $responseData['user']['name']);
         $this->assertEquals($requestData['email'], $responseData['user']['email']);
+        $user = User::where('email', $requestData['email'])->first();
 
         $user = User::where('email', $requestData['email'])->first();
         $this->assertNotNull($user);
@@ -56,7 +57,7 @@ class AuthControllerTest extends TestCase
     /**
      *  @test
      */
-    public function testRegisterValidationEmptyFildsError()
+    public function testRegisterValidationEmptyFieldsError()
     {
 
         $requestData = [
@@ -193,7 +194,7 @@ class AuthControllerTest extends TestCase
     /**
      *  @test
      */
-    public function testLoginValidationEmptyFildsError()
+    public function testLoginValidationEmptyFieldsError()
     {
 
         $requestData = [
@@ -270,7 +271,7 @@ class AuthControllerTest extends TestCase
         $user = User::factory()->create();
         $token = $user->createToken('token')->plainTextToken;
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->postJson('/api/logout');
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/logout');
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJson([

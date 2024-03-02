@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -24,7 +25,7 @@ class AuthController extends Controller
                 [
                     'message' => $errors
                 ],
-                422
+                Response::HTTP_UNPROCESSABLE_ENTITY
             );
         }
 
@@ -34,10 +35,13 @@ class AuthController extends Controller
             'password' => bcrypt($validatedData['password']),
         ]);
 
-        return response()->json([
-            'message' => 'User registered successfully!',
-            'user' => $user
-        ], 201);
+        return response()->json(
+            [
+                'message' => 'User registered successfully!',
+                'user' => $user
+            ],
+            Response::HTTP_CREATED
+        );
     }
 
     public function login(Request $request)
@@ -54,7 +58,7 @@ class AuthController extends Controller
                 [
                     'message' => $errors
                 ],
-                422
+                Response::HTTP_UNPROCESSABLE_ENTITY
             );
         }
 
@@ -62,29 +66,44 @@ class AuthController extends Controller
             $user = Auth::user();
             $token = $user->createToken('token')->plainTextToken;
 
-            $request->session()->regenerate();
-            return response()->json([
-                'message' => 'Login successfully!',
-                'user' => $user,
-                'token' =>  $token
-            ], 200);
+            return response()->json(
+                [
+                    'message' => 'Login successfully!',
+                    'user' => $user,
+                    'token' =>  $token
+                ],
+                Response::HTTP_OK
+            );
         }
 
-        return response()->json([
-            'message' => 'Incorrect email or password.'
-        ], 401);
+        return response()->json(
+            [
+                'message' => 'Incorrect email or password.'
+            ],
+            Response::HTTP_UNAUTHORIZED
+        );
     }
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        $request->user()->tokens()->delete();
 
-        $request->session()->invalidate();
+        return response()->json(
+            [
+                'message' => 'Logout successful!'
+            ],
+            Response::HTTP_OK
+        );
+    }
 
-        $request->session()->regenerateToken();
+    public function teste()
+    {
 
-        return response()->json([
-            'message' => 'Logout successful!'
-        ], 200);
+        return response()->json(
+            [
+                'message' => 'teste'
+            ],
+            Response::HTTP_OK
+        );
     }
 }
