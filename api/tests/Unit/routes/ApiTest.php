@@ -147,4 +147,24 @@ class ApiTest extends TestCase
 
         $response->assertStatus(Response::HTTP_OK);
     }
+
+    /**
+     *  @test
+     */
+    public function testBalanceDeleteRouteSuccess()
+    {
+
+        $user = User::factory()->create();
+        $balance = Balance::factory()->create();
+
+        $token = $user->createToken('token')->plainTextToken;
+
+        $response =  $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->delete(
+            '/api/balance/' . $balance->id
+        );
+
+        $response->assertStatus(Response::HTTP_OK);
+    }
 }

@@ -169,6 +169,29 @@ class BalanceControllerTest extends TestCase
     /**
      *  @test
      */
+    public function testBalanceUpdateBalanceNotFoundError()
+    {
+
+        $requestData = [
+            'name' => 'Balance Test Update',
+            'description' => 'Balance Test description update',
+            'initial_value' => 10001.99,
+        ];
+
+        $request = new Request($requestData);
+
+        $response = $this->balanceController->updateBalance($request, 0);
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+
+        $responseData = $response->getData(true);
+
+        $this->assertEquals('Balance not found.', $responseData['message']);
+    }
+
+    /**
+     *  @test
+     */
     public function testValidationEmptyFieldsUpdatBalanceError()
     {
         $balance = Balance::factory()->create();
@@ -219,5 +242,39 @@ class BalanceControllerTest extends TestCase
         $this->assertEquals('The initial value field must be a number.', $responseData['message']['initial_value'][0]);
 
         $this->assertArrayHasKey('initial_value', $responseData['message']);
+    }
+
+
+    /**
+     *  @test
+     */
+    public function testBalanceDeleteSuccess()
+    {
+
+        $balance = Balance::factory()->create();
+
+        $response = $this->balanceController->deleteBalance($balance->id);
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $responseData = $response->getData(true);
+
+        $this->assertEquals('Balance deleted successfully!', $responseData['message']);
+    }
+
+
+    /**
+     *  @test
+     */
+    public function testBalanceDeleteNotFoundError()
+    {
+
+        $response = $this->balanceController->deleteBalance(0);
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+
+        $responseData = $response->getData(true);
+
+        $this->assertEquals('Balance not found.', $responseData['message']);
     }
 }

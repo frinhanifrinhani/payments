@@ -28,4 +28,5 @@ Route::controller(BalanceController::class)->group(function () {
     Route::middleware('auth:sanctum')->get('/balance', 'getAllBalances');
     Route::middleware('auth:sanctum')->get('/balance/{id}', 'getBalanceById');
     Route::middleware('auth:sanctum')->patch('/balance/{id}', 'updateBalance');
+    Route::middleware('auth:sanctum')->delete('/balance/{id}', 'deleteBalance');
 });
