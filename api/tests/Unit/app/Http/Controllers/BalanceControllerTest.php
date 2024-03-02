@@ -126,7 +126,10 @@ class BalanceControllerTest extends TestCase
         $this->assertCount($balances, $response->original['balances']);
     }
 
-    public function testBalanceGetByIdSucess()
+    /**
+     *  @test
+     */
+    public function testBalanceGetByIdSuccess()
     {
         $balance = Balance::factory()->create();
 
@@ -136,5 +139,85 @@ class BalanceControllerTest extends TestCase
 
         $this->assertArrayHasKey('message', $response->original);
         $this->assertArrayHasKey('balance', $response->original);
+    }
+
+    /**
+     *  @test
+     */
+    public function testBalanceUpdateSuccess()
+    {
+
+        $balance = Balance::factory()->create();
+
+        $requestData = [
+            'name' => 'Balance Test Update',
+            'description' => 'Balance Test description update',
+            'initial_value' => 10001.99,
+        ];
+
+        $request = new Request($requestData);
+
+        $response = $this->balanceController->updateBalance($request, $balance->id);
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $responseData = $response->getData(true);
+
+        $this->assertEquals('Balance updated successfully!', $responseData['message']);
+    }
+
+    /**
+     *  @test
+     */
+    public function testValidationEmptyFieldsUpdatBalanceError()
+    {
+        $balance = Balance::factory()->create();
+
+        $requestData = [
+            'name' => '',
+            'description' => '',
+            'initial_value' => '',
+        ];
+
+        $request = new Request($requestData);
+
+        $response = $this->balanceController->updateBalance($request, $balance->id);
+
+        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+
+        $responseData = $response->getData(true);
+        $this->assertEquals('The name field is required.', $responseData['message']['name'][0]);
+        $this->assertEquals('The description field is required.', $responseData['message']['description'][0]);
+        $this->assertEquals('The initial value field is required.', $responseData['message']['initial_value'][0]);
+
+        $this->assertArrayHasKey('name', $responseData['message']);
+        $this->assertArrayHasKey('description', $responseData['message']);
+        $this->assertArrayHasKey('initial_value', $responseData['message']);
+    }
+
+    /**
+     *  @test
+     */
+    public function testValidationFieldInicialValueNumberWhenUpdateError()
+    {
+        $balance = Balance::factory()->create();
+
+        $requestData = [
+            'name' => 'Balance Test',
+            'description' => 'Balance Test description',
+            'initial_value' => 'needs-be-a-number',
+        ];
+
+        $request = new Request($requestData);
+
+        $response = $this->balanceController->updateBalance($request, $balance->id);
+
+        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+
+        $responseData = $response->getData(true);
+
+        $this->assertEquals('The initial value field must be a number.', $responseData['message']['initial_value'][0]);
+
+        $this->assertArrayHasKey('initial_value', $responseData['message']);
     }
 }

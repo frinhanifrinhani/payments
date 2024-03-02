@@ -12,7 +12,9 @@ class ApiTest extends TestCase
 {
     use DatabaseTransactions;
 
-
+    /**
+     *  @test
+     */
     public function testRegisterRouteSuccess()
     {
         $response = $this->post('/api/register', [
@@ -25,6 +27,9 @@ class ApiTest extends TestCase
         $response->assertStatus(Response::HTTP_CREATED);
     }
 
+    /**
+     *  @test
+     */
     public function testLoginRouteSuccess()
     {
         $user = User::factory()->create([
@@ -40,6 +45,9 @@ class ApiTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
     }
 
+    /**
+     *  @test
+     */
     public function testUnauthorizedLogoutError()
     {
         $response = $this->post('/api/logout');
@@ -50,6 +58,9 @@ class ApiTest extends TestCase
         ]);
     }
 
+    /**
+     *  @test
+     */
     public function testUnauthorizedBalancePostRouteError()
     {
         $response = $this->post('/api/balance');
@@ -60,6 +71,9 @@ class ApiTest extends TestCase
         ]);
     }
 
+    /**
+     *  @test
+     */
     public function testBalancePostRouteSuccess()
     {
         $user = User::factory()->create();
@@ -76,6 +90,9 @@ class ApiTest extends TestCase
         $response->assertStatus(Response::HTTP_CREATED);
     }
 
+    /**
+     *  @test
+     */
     public function testBalanceGetRouteSuccess()
     {
         $user = User::factory()->create();
@@ -88,6 +105,9 @@ class ApiTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
     }
 
+    /**
+     *  @test
+     */
     public function testBalanceGetByIdRouteSuccess()
     {
 
@@ -99,6 +119,31 @@ class ApiTest extends TestCase
         $response =  $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
         ])->get('/api/balance/' . $balance->id);
+
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
+    /**
+     *  @test
+     */
+    public function testBalanceUpdateRouteSuccess()
+    {
+
+        $user = User::factory()->create();
+        $balance = Balance::factory()->create();
+
+        $token = $user->createToken('token')->plainTextToken;
+
+        $response =  $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->patch(
+            '/api/balance/' . $balance->id,
+            [
+                'name' => 'Balance Test Update',
+                'description' => 'Balance Test description Update',
+                'initial_value' => 10001.98,
+            ]
+        );
 
         $response->assertStatus(Response::HTTP_OK);
     }

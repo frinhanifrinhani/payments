@@ -94,4 +94,41 @@ class BalanceController extends Controller
             );
         }
     }
+
+    public function updateBalance(Request $request, $id): JsonResponse
+    {
+
+        try {
+            $validatedData = $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'description' => ['required', 'string', 'max:255'],
+                'initial_value' => ['required', 'numeric'],
+            ]);
+
+            $balance = Balance::findOrFail($id);
+            $balance->update($validatedData);
+
+            return response()->json(
+                [
+                    'message' => 'Balance updated successfully!'
+                ],
+                Response::HTTP_OK
+            );
+        } catch (ValidationException $e) {
+            $errors = $e->validator->errors()->toArray();
+            return response()->json(
+                [
+                    'message' => $errors
+                ],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'message' => 'Failed to update balance. Please try again later.'
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
 }
