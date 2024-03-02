@@ -6,11 +6,12 @@ use App\Models\Balance;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Http\JsonResponse;
 
 class BalanceController extends Controller
 {
 
-    public function createBalance(Request $request)
+    public function createBalance(Request $request): JsonResponse
     {
 
         try {
@@ -41,4 +42,8 @@ class BalanceController extends Controller
             Response::HTTP_CREATED
         );
     }
+
+    //public function createBalance(Request $request): JsonResponse
+    //{
+    //}
 }
