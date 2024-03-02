@@ -103,7 +103,6 @@ class BalanceController extends Controller
             $validatedData = $request->validate([
                 'name' => ['required', 'string', 'max:255'],
                 'description' => ['required', 'string', 'max:255'],
-                'initial_value' => ['required', 'numeric'],
             ]);
 
             $balance = Balance::findOrFail($id);

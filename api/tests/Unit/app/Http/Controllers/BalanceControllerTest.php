@@ -192,62 +192,6 @@ class BalanceControllerTest extends TestCase
     /**
      *  @test
      */
-    public function testValidationEmptyFieldsUpdatBalanceError()
-    {
-        $balance = Balance::factory()->create();
-
-        $requestData = [
-            'name' => '',
-            'description' => '',
-            'initial_value' => '',
-        ];
-
-        $request = new Request($requestData);
-
-        $response = $this->balanceController->updateBalance($request, $balance->id);
-
-        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
-
-        $responseData = $response->getData(true);
-        $this->assertEquals('The name field is required.', $responseData['message']['name'][0]);
-        $this->assertEquals('The description field is required.', $responseData['message']['description'][0]);
-        $this->assertEquals('The initial value field is required.', $responseData['message']['initial_value'][0]);
-
-        $this->assertArrayHasKey('name', $responseData['message']);
-        $this->assertArrayHasKey('description', $responseData['message']);
-        $this->assertArrayHasKey('initial_value', $responseData['message']);
-    }
-
-    /**
-     *  @test
-     */
-    public function testValidationFieldInicialValueNumberWhenUpdateError()
-    {
-        $balance = Balance::factory()->create();
-
-        $requestData = [
-            'name' => 'Balance Test',
-            'description' => 'Balance Test description',
-            'initial_value' => 'needs-be-a-number',
-        ];
-
-        $request = new Request($requestData);
-
-        $response = $this->balanceController->updateBalance($request, $balance->id);
-
-        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
-
-        $responseData = $response->getData(true);
-
-        $this->assertEquals('The initial value field must be a number.', $responseData['message']['initial_value'][0]);
-
-        $this->assertArrayHasKey('initial_value', $responseData['message']);
-    }
-
-
-    /**
-     *  @test
-     */
     public function testBalanceDeleteSuccess()
     {
 
