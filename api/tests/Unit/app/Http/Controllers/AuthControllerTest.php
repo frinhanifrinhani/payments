@@ -6,11 +6,10 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Auth;
-
 
 class AuthControllerTest extends TestCase
 {
@@ -39,7 +38,7 @@ class AuthControllerTest extends TestCase
 
         $response = $this->authController->register($request);
 
-        $this->assertEquals(201, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
 
         $responseData = $response->getData(true);
 
@@ -70,7 +69,7 @@ class AuthControllerTest extends TestCase
 
         $response = $this->authController->register($request);
 
-        $this->assertEquals(422, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
 
         $responseData = $response->getData(true);
 
@@ -100,7 +99,7 @@ class AuthControllerTest extends TestCase
 
         $response = $this->authController->register($request);
 
-        $this->assertEquals(422, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
 
         $responseData = $response->getData(true);
 
@@ -130,7 +129,7 @@ class AuthControllerTest extends TestCase
 
         $response = $this->authController->register($request);
 
-        $this->assertEquals(422, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
 
         $responseData = $response->getData(true);
 
@@ -155,7 +154,7 @@ class AuthControllerTest extends TestCase
 
         $response = $this->authController->register($request);
 
-        $this->assertEquals(422, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
 
         $responseData = $response->getData(true);
 
@@ -176,7 +175,7 @@ class AuthControllerTest extends TestCase
             'password' => 'password',
         ]);
 
-        $response->assertStatus(200)
+        $response->assertStatus(Response::HTTP_OK)
             ->assertJson([
                 'message' => 'Login successfully!',
                 'user' => [
@@ -206,7 +205,7 @@ class AuthControllerTest extends TestCase
 
         $response = $this->authController->login($request);
 
-        $this->assertEquals(422, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
 
         $responseData = $response->getData(true);
 
@@ -232,7 +231,7 @@ class AuthControllerTest extends TestCase
 
         $response = $this->authController->login($request);
 
-        $this->assertEquals(422, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
 
         $responseData = $response->getData(true);
 
@@ -255,29 +254,29 @@ class AuthControllerTest extends TestCase
 
         $response = $this->authController->login($request);
 
-        $this->assertEquals(401, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
 
         $responseData = $response->getData(true);
 
         $this->assertEquals('Incorrect email or password.', $responseData['message']);
     }
 
-
     /**
      *  @test
      */
-    //public function testLogout()
-    //{
-    //    $user = User::factory()->create([
-    //        'email' => 'test.user@payment.com',
-    //        'password' => bcrypt('password'),
-    //    ]);
-    //    $response = $this->actingAs($user, 'api')
-    //        ->json('POST', '/api/logout');
-    //    $response->assertStatus(200)
-    //        ->assertJson([
-    //            'message' => 'Logout successful!'
-    //        ]);
-    //    $this->assertGuest('api');
-    //}
+    public function testLogout()
+    {
+
+        $user = User::factory()->create();
+        $token = $user->createToken('token')->plainTextToken;
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->postJson('/api/logout');
+
+        $response->assertStatus(Response::HTTP_OK)
+            ->assertJson([
+                'message' => 'Logout successful!'
+            ]);
+
+        $this->assertEmpty($user->tokens);
+    }
 }
