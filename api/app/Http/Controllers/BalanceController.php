@@ -43,7 +43,25 @@ class BalanceController extends Controller
         );
     }
 
-    //public function createBalance(Request $request): JsonResponse
-    //{
-    //}
+    public function getAllBalances(): JsonResponse
+    {
+        try {
+            $balances = Balance::all();
+
+            return response()->json(
+                [
+                    'message' => 'All balances retrieved successfully!',
+                    'balances' => $balances
+                ],
+                Response::HTTP_OK
+            );
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'message' => 'Failed to retrieve balances. Please try again later.'
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
 }

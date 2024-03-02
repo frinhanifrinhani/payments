@@ -74,4 +74,16 @@ class ApiTest extends TestCase
 
         $response->assertStatus(Response::HTTP_CREATED);
     }
+
+    public function testBalanceGetRouteSuccess()
+    {
+        $user = User::factory()->create();
+        $token = $user->createToken('token')->plainTextToken;
+
+        $response =  $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/balance');
+
+        $response->assertStatus(Response::HTTP_OK);
+    }
 }
