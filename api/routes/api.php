@@ -20,12 +20,11 @@ use App\Http\Controllers\BalanceController;
 Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login');
     Route::post('/register', 'register');
-    // Route::get('/teste', [AuthController::class, 'teste']);
-    Route::middleware('auth:sanctum')->get('/teste', 'teste');
     Route::middleware('auth:sanctum')->post('/logout', 'logout');
 });
 
 Route::controller(BalanceController::class)->group(function () {
     Route::middleware('auth:sanctum')->post('/balance', 'createBalance');
     Route::middleware('auth:sanctum')->get('/balance', 'getAllBalances');
+    Route::middleware('auth:sanctum')->get('/balance/{id}', 'getBalanceById');
 });

@@ -96,15 +96,4 @@ class AuthController extends Controller
             Response::HTTP_OK
         );
     }
-
-    public function teste()
-    {
-
-        return response()->json(
-            [
-                'message' => 'teste'
-            ],
-            Response::HTTP_OK
-        );
-    }
 }

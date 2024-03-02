@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\User;
 use Illuminate\Http\Response;
+use App\Models\Balance;
 
 class ApiTest extends TestCase
 {
@@ -83,6 +84,21 @@ class ApiTest extends TestCase
         $response =  $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
         ])->get('/api/balance');
+
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
+    public function testBalanceGetByIdRouteSuccess()
+    {
+
+        $user = User::factory()->create();
+        $balance = Balance::factory()->create();
+
+        $token = $user->createToken('token')->plainTextToken;
+
+        $response =  $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/balance/' . $balance->id);
 
         $response->assertStatus(Response::HTTP_OK);
     }

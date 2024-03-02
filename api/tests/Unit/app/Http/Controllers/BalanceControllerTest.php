@@ -115,14 +115,26 @@ class BalanceControllerTest extends TestCase
 
         Balance::factory()->count(3)->create();
 
-        $responseData = $this->balanceController->getAllBalances();
+        $response = $this->balanceController->getAllBalances();
 
-        $this->assertEquals(Response::HTTP_OK, $responseData->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
-        $this->assertArrayHasKey('message', $responseData->original);
-        $this->assertArrayHasKey('balances', $responseData->original);
+        $this->assertArrayHasKey('message', $response->original);
+        $this->assertArrayHasKey('balances', $response->original);
 
         $balances = Balance::all()->count();
-        $this->assertCount($balances, $responseData->original['balances']);
+        $this->assertCount($balances, $response->original['balances']);
+    }
+
+    public function testBalanceGetByIdSucess()
+    {
+        $balance = Balance::factory()->create();
+
+        $response = $this->balanceController->getBalanceById($balance->id);
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $this->assertArrayHasKey('message', $response->original);
+        $this->assertArrayHasKey('balance', $response->original);
     }
 }
