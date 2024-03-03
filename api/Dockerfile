@@ -7,7 +7,7 @@ RUN apt-get update && \
 
 WORKDIR /var/www/html/
 
-COPY . ./api
+COPY . .
 
 COPY payments-api.conf /etc/apache2/sites-available/
 
@@ -17,14 +17,11 @@ RUN a2ensite payments-api.conf && \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     composer clear-cache
 
-RUN cd /var/www/html/api && \
-    composer install && \
+RUN composer install && \
     chown -R www-data:www-data bootstrap/cache && \
+    chmod -R 755 /var/www/html && \
     touch storage/logs/laravel.log && \
-    chmod -R 777 storage && \
-    chmod -R 755 /var/www/html
-
-RUN apt-get install nano
+    chmod -R 777 storage
 
 EXPOSE 80
 
