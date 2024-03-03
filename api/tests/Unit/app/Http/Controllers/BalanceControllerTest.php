@@ -60,13 +60,8 @@ class BalanceControllerTest extends TestCase
      */
     public function testValidationEmptyFieldsBalanceError()
     {
-        $requestData = [
-            'name' => '',
-            'description' => '',
-            'initial_value' => '',
-        ];
 
-        $request = new Request($requestData);
+        $request = new Request(array());
 
         $response = $this->balanceController->createBalance($request);
 

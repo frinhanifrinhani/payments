@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PaymentController extends Controller
 {
+
     public function createPayment(Request $request): JsonResponse
     {
 
@@ -33,6 +33,24 @@ class PaymentController extends Controller
             );
         }
 
+        if (!$this->balanceExists($validatedData['balance_id'])) {
+            return response()->json(
+                [
+                    'message' => 'Balance not found.',
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        if (!$this->hasBalance($validatedData['balance_id'], $validatedData['value'])) {
+            return response()->json(
+                [
+                    'message' => 'Insufficient balance.',
+                ],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
         $payment = Payment::create($validatedData);
 
         return response()->json(
@@ -42,5 +60,22 @@ class PaymentController extends Controller
             ],
             Response::HTTP_CREATED
         );
+    }
+
+    public function hasBalance($balanceId, $value): bool
+    {
+        $balance = Balance::find($balanceId);
+
+        return $balance->remaining_value >= $value;
+    }
+
+    public function balanceExists($balanceId): bool
+    {
+
+        if (!Balance::find($balanceId)) {
+            return false;
+        }
+
+        return true;
     }
 }

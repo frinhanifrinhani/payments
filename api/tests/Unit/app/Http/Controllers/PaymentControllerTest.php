@@ -33,7 +33,7 @@ class PaymentControllerTest extends TestCase
         $requestData = [
             'name' => 'Payment Test',
             'description' => 'Payment Test description',
-            'value' => 10000.99,
+            'value' => $balance->initial_value,
             'balance_id' => $balance->id
         ];
 
@@ -66,14 +66,8 @@ class PaymentControllerTest extends TestCase
      */
     public function testValidationEmptyFieldsPaymentError()
     {
-        $requestData = [
-            'name' => '',
-            'description' => '',
-            'value' => '',
-            'balance_id' => '',
-        ];
 
-        $request = new Request($requestData);
+        $request = new Request(array());
 
         $response = $this->paymentController->createPayment($request);
 
@@ -88,6 +82,93 @@ class PaymentControllerTest extends TestCase
 
         $this->assertArrayHasKey('name', $responseData['message']);
         $this->assertArrayHasKey('description', $responseData['message']);
+        $this->assertArrayHasKey('value', $responseData['message']);
+        $this->assertArrayHasKey('balance_id', $responseData['message']);
+    }
+
+    /**
+     *  @test
+     */
+    public function testValidateHasBalanceError()
+    {
+
+        $requestBalanceData = [
+            'name' => 'Balance Test',
+            'description' => 'Balance Test description',
+            'initial_value' => 100,
+            'remaining_value' => 100,
+        ];
+
+        $balance = Balance::create($requestBalanceData);
+
+        $requestData = [
+            'name' => 'Payment Test',
+            'description' => 'Payment Test description',
+            'value' => 200,
+            'balance_id' => $balance->id
+        ];
+
+        $request = new Request($requestData);
+
+        $response = $this->paymentController->createPayment($request);
+
+        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+
+        $responseData = $response->getData(true);
+
+        $this->assertEquals('Insufficient balance.', $responseData['message']);
+    }
+
+    /**
+     *  @test
+     */
+    public function testValidateBalanceExistsError()
+    {
+
+        $requestData = [
+            'name' => 'Payment Test',
+            'description' => 'Payment Test description',
+            'value' => 200,
+            'balance_id' => 0
+        ];
+
+        $request = new Request($requestData);
+
+        $response = $this->paymentController->createPayment($request);
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+
+        $responseData = $response->getData(true);
+
+        $this->assertEquals('Balance not found.', $responseData['message']);
+    }
+
+    /**
+     *  @test
+     */
+    public function testValidateValueFieldIsNumericError()
+    {
+
+        $balance = Balance::factory()->create();
+
+        $requestData = [
+            'name' => 'Payment Test',
+            'description' => 'Payment Test description',
+            'value' => 'needs-be-a-number',
+            'balance_id' => 'needs-be-a-number',
+        ];
+
+        $request = new Request($requestData);
+
+        $response = $this->paymentController->createPayment($request);
+
+        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+
+        $responseData = $response->getData(true);
+
+        $this->assertEquals('The value field must be a number.', $responseData['message']['value'][0]);
+        $this->assertEquals('The balance id field must be a number.', $responseData['message']['balance_id'][0]);
+
         $this->assertArrayHasKey('value', $responseData['message']);
         $this->assertArrayHasKey('balance_id', $responseData['message']);
     }

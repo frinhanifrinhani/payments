@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\User;
 use Illuminate\Http\Response;
 use App\Models\Balance;
+use App\Models\Payment;
 
 class ApiTest extends TestCase
 {
@@ -166,5 +167,28 @@ class ApiTest extends TestCase
         );
 
         $response->assertStatus(Response::HTTP_OK);
+    }
+
+    /**
+     *  @test
+     */
+    public function testPaymentPostRouteSuccess()
+    {
+        $user = User::factory()->create();
+        $balance = Balance::factory()->create();
+
+        $token = $user->createToken('token')->plainTextToken;
+
+        $response =  $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->post('/api/payment', [
+            'name' => 'Balance Test',
+            'description' => 'Balance Test description',
+            'value' => $balance->initial_value,
+            'balance_id' => $balance->id
+
+        ]);
+
+        $response->assertStatus(Response::HTTP_CREATED);
     }
 }
