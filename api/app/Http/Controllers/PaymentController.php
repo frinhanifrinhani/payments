@@ -13,6 +13,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class PaymentController extends Controller
 {
 
+    const SUBTRACT = 1;
+    const REVERSAL = 2;
+
     public function createPayment(Request $request): JsonResponse
     {
 
@@ -54,7 +57,7 @@ class PaymentController extends Controller
 
         $payment = Payment::create($validatedData);
 
-        $this->updateRemainingValue($payment);
+        $this->updateRemainingValue($payment, PaymentController::SUBTRACT);
         return response()->json(
             [
                 'message' => 'Payment created successfully!',
@@ -64,14 +67,14 @@ class PaymentController extends Controller
         );
     }
 
-    public function hasBalance($balanceId, $value): bool
+    protected function hasBalance($balanceId, $value): bool
     {
         $balance = Balance::find($balanceId);
 
         return $balance->remaining_value >= $value;
     }
 
-    public function balanceExists($balanceId): bool
+    protected function balanceExists($balanceId): bool
     {
 
         if (!Balance::find($balanceId)) {
@@ -79,27 +82,6 @@ class PaymentController extends Controller
         }
 
         return true;
-    }
-
-    public function updateRemainingValue(Payment $payment)
-    {
-        try {
-            $balance = Balance::findOrFail($payment->balance_id);
-
-            $paymentValue = $payment->getValue($payment);
-            $RemainingValue = $balance->getRemainingValue();
-
-            $newRemaingingValue = $RemainingValue - $paymentValue;
-
-            $balance->update(array('remaining_value' => $newRemaingingValue));
-        } catch (\Exception $e) {
-            return response()->json(
-                [
-                    'message' => 'Failed to update balance. Please try again later.'
-                ],
-                Response::HTTP_INTERNAL_SERVER_ERROR
-            );
-        }
     }
 
     public function getAllPayments(): JsonResponse
@@ -165,13 +147,6 @@ class PaymentController extends Controller
 
             $payment = Payment::findOrFail($id);
             $payment->update($validatedData);
-
-            return response()->json(
-                [
-                    'message' => 'Payment updated successfully!'
-                ],
-                Response::HTTP_OK
-            );
         } catch (ModelNotFoundException $e) {
             return response()->json(
                 [
@@ -195,5 +170,85 @@ class PaymentController extends Controller
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
+
+        return response()->json(
+            [
+                'message' => 'Payment updated successfully!'
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    public function deletePayment($id): JsonResponse
+    {
+
+        try {
+
+            $payment = Payment::findOrFail($id);
+
+            $payment->delete();
+
+            $this->updateRemainingValue($payment, PaymentController::REVERSAL);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(
+                [
+                    'message' => 'Payment not found.'
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'message' => 'Failed to delete payment. Please try again later.'
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+
+        return response()->json(
+            [
+                'message' => 'Payment deleted successfully!'
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    protected function updateRemainingValue(Payment $payment, $metod)
+    {
+        try {
+            $balance = Balance::findOrFail($payment->balance_id);
+
+            $paymentValue = $payment->getValue($payment);
+            $remainingValue = $balance->getRemainingValue();
+
+            if ($metod == PaymentController::SUBTRACT) {
+                $newRemaingingValue = $this->subtract($paymentValue, $remainingValue);
+            }
+
+            if ($metod == PaymentController::REVERSAL) {
+                $newRemaingingValue = $this->reversal($paymentValue, $remainingValue);
+            }
+
+            $balance->update(array('remaining_value' => $newRemaingingValue));
+        } catch (\Throwable $e) {
+            return response()->json(
+                [
+                    'message' => 'Failed to delete payment. Please try again later.'
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    protected function subtract($paymentValue, $remainingValue)
+    {
+        $newRemaingingValue = $remainingValue - $paymentValue;
+        return $newRemaingingValue;
+    }
+
+    protected function reversal($paymentValue, $remainingValue)
+    {
+        $newRemaingingValue = $remainingValue + $paymentValue;
+        return $newRemaingingValue;
     }
 }

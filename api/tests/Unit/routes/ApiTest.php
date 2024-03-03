@@ -246,4 +246,24 @@ class ApiTest extends TestCase
 
         $response->assertStatus(Response::HTTP_OK);
     }
+
+    /**
+     *  @test
+     */
+    public function testPaymentDeleteRouteSuccess()
+    {
+
+        $user = User::factory()->create();
+        $payment = Payment::factory()->create();
+
+        $token = $user->createToken('token')->plainTextToken;
+
+        $response =  $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->delete(
+            '/api/payment/' . $payment->id
+        );
+
+        $response->assertStatus(Response::HTTP_OK);
+    }
 }

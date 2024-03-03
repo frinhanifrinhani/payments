@@ -37,6 +37,7 @@ Route::controller(PaymentController::class)->group(function () {
     Route::middleware('auth:sanctum')->get('/payment', 'getAllPayments');
     Route::middleware('auth:sanctum')->get('/payment/{id}', 'getPaymentById');
     Route::middleware('auth:sanctum')->patch('/payment/{id}', 'updatePayment');
+    Route::middleware('auth:sanctum')->delete('/payment/{id}', 'deletePayment');
 });
 
 

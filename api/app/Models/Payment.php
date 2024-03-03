@@ -43,7 +43,7 @@ class Payment extends Model
 
     public function getValue()
     {
-        return number_format($this->attributes['value'], 2);
+        return $this->attributes['value'];
     }
 
     public function setValue($value)

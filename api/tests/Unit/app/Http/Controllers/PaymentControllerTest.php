@@ -228,4 +228,21 @@ class PaymentControllerTest extends TestCase
 
         $this->assertEquals('Payment updated successfully!', $responseData['message']);
     }
+
+    /**
+     *  @test
+     */
+    public function testPaymentDeleteSuccess()
+    {
+
+        $payment = Payment::factory()->create();
+
+        $response = $this->paymentController->deletePayment($payment->id);
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $responseData = $response->getData(true);
+
+        $this->assertEquals('Payment deleted successfully!', $responseData['message']);
+    }
 }

@@ -135,13 +135,6 @@ class BalanceController extends Controller
 
             $balance = Balance::findOrFail($id);
             $balance->update($validatedData);
-
-            return response()->json(
-                [
-                    'message' => 'Balance updated successfully!'
-                ],
-                Response::HTTP_OK
-            );
         } catch (ModelNotFoundException $e) {
             return response()->json(
                 [
@@ -165,6 +158,13 @@ class BalanceController extends Controller
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
+
+        return response()->json(
+            [
+                'message' => 'Balance updated successfully!'
+            ],
+            Response::HTTP_OK
+        );
     }
 
     public function deleteBalance($id): JsonResponse
@@ -173,13 +173,6 @@ class BalanceController extends Controller
         try {
             $balance = Balance::findOrFail($id);
             $balance->delete();
-
-            return response()->json(
-                [
-                    'message' => 'Balance deleted successfully!'
-                ],
-                Response::HTTP_OK
-            );
         } catch (ModelNotFoundException $e) {
             return response()->json(
                 [
@@ -202,5 +195,12 @@ class BalanceController extends Controller
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
+
+        return response()->json(
+            [
+                'message' => 'Balance deleted successfully!'
+            ],
+            Response::HTTP_OK
+        );
     }
 }
