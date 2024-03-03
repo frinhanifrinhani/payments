@@ -53,6 +53,7 @@ class PaymentController extends Controller
 
         $payment = Payment::create($validatedData);
 
+        $this->updateRemainingValue($payment);
         return response()->json(
             [
                 'message' => 'Payment created successfully!',
@@ -77,5 +78,26 @@ class PaymentController extends Controller
         }
 
         return true;
+    }
+
+    public function updateRemainingValue(Payment $payment)
+    {
+        try {
+            $balance = Balance::findOrFail($payment->balance_id);
+
+            $paymentValue = $payment->getValue($payment);
+            $RemainingValue = $balance->getRemainingValue();
+
+            $newRemaingingValue = $RemainingValue - $paymentValue;
+
+            $balance->update(array('remaining_value' => $newRemaingingValue));
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'message' => 'Failed to update balance. Please try again later.'
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }

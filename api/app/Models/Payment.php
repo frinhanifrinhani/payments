@@ -20,4 +20,34 @@ class Payment extends Model
     {
         return $this->belongsTo(Balance::class);
     }
+
+    public function getName()
+    {
+        return $this->attributes['name'];
+    }
+
+    public function setName($value)
+    {
+        $this->attributes['name'] = strtolower($value);
+    }
+
+    public function getDescription()
+    {
+        return $this->attributes['description'];
+    }
+
+    public function setDescription($value)
+    {
+        $this->attributes['description'] = strtolower($value);
+    }
+
+    public function getValue()
+    {
+        return number_format($this->attributes['value'], 2);
+    }
+
+    public function setValue($value)
+    {
+        $this->attributes['value'] = number_format($value, 2);
+    }
 }
