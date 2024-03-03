@@ -47,8 +47,12 @@ class BalanceController extends Controller
 
     public function getAllBalances(): JsonResponse
     {
+
         try {
-            $balances = Balance::all();
+
+            $balancesToProcess = Balance::all();
+            $balances = $this->usedValueProcessing($balancesToProcess);
+
 
             return response()->json(
                 [
@@ -65,6 +69,30 @@ class BalanceController extends Controller
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
+    }
+
+    public function usedValueProcessing($balances): array
+    {
+        $processedBalances = [];
+        foreach ($balances as $balance) {
+
+            $usedValue = floatval($balance->initial_value) - floatval($balance->remaining_value);
+
+            $processedBalances[] = [
+                'id' => $balance->id,
+                'name' => $balance->name,
+                'description' => $balance->description,
+                'initial_value' => $balance->initial_value,
+                'used_value' =>  (string)$usedValue,
+                'remaining_value' => $balance->remaining_value,
+                'created_at' => $balance->created_at,
+                'created_at' => $balance->created_at,
+
+
+            ];
+        }
+
+        return $processedBalances;
     }
 
     public function getBalanceById($id): JsonResponse
