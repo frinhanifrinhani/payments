@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PaymentController extends Controller
 {
@@ -118,6 +119,35 @@ class PaymentController extends Controller
             return response()->json(
                 [
                     'message' => 'Failed to retrieve payments. Please try again later.'
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    public function getPaymentById($id): JsonResponse
+    {
+        try {
+            $payment = Payment::findOrFail($id);
+
+            return response()->json(
+                [
+                    'message' => 'Payment retrieved successfully!',
+                    'payment' => $payment
+                ],
+                Response::HTTP_OK
+            );
+        } catch (ModelNotFoundException $e) {
+            return response()->json(
+                [
+                    'message' => 'Payment not found.'
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'message' => 'Failed to retrieve payment. Please try again later.'
                 ],
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );

@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 
 class BalanceController extends Controller
 {
@@ -169,7 +170,6 @@ class BalanceController extends Controller
     public function deleteBalance($id): JsonResponse
     {
 
-
         try {
             $balance = Balance::findOrFail($id);
             $balance->delete();
@@ -186,6 +186,13 @@ class BalanceController extends Controller
                     'message' => 'Balance not found.'
                 ],
                 Response::HTTP_NOT_FOUND
+            );
+        } catch (QueryException $e) {
+            return response()->json(
+                [
+                    'message' => 'It is not possible to delete this balance as there are payments related to this balance.'
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
             );
         } catch (\Exception $e) {
             return response()->json(

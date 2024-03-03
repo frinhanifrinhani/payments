@@ -5,6 +5,7 @@ namespace Tests\Unit\app\Http\Controllers;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\Controllers\BalanceController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,11 +16,13 @@ class BalanceControllerTest extends TestCase
     use DatabaseTransactions, WithFaker;
 
     protected $balanceController;
+    protected $paymentController;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->balanceController = new BalanceController();
+        $this->paymentController = new PaymentController();
     }
 
     /**
@@ -199,6 +202,34 @@ class BalanceControllerTest extends TestCase
         $responseData = $response->getData(true);
 
         $this->assertEquals('Balance deleted successfully!', $responseData['message']);
+    }
+
+    /**
+     *  @test
+     */
+    public function testBalanceDeleteBalanceWithPaymentError()
+    {
+
+        $balance = Balance::factory()->create();
+
+        $requestData = [
+            'name' => 'Payment Test',
+            'description' => 'Payment Test description',
+            'value' => $balance->initial_value,
+            'balance_id' =>  $balance->id,
+        ];
+
+        $request = new Request($requestData);
+
+        $this->paymentController->createPayment($request);
+
+        $response = $this->balanceController->deleteBalance($balance->id);
+
+        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+
+        $responseData = $response->getData(true);
+
+        $this->assertEquals('It is not possible to delete this balance as there are payments related to this balance.', $responseData['message']);
     }
 
 

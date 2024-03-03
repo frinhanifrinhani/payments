@@ -191,4 +191,19 @@ class PaymentControllerTest extends TestCase
         $payments = payment::all()->count();
         $this->assertCount($payments, $response->original['payments']);
     }
+
+    /**
+     *  @test
+     */
+    public function testPaymentGetByIdSuccess()
+    {
+        $payment = Payment::factory()->create();
+
+        $response = $this->paymentController->getPaymentById($payment->id);
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $this->assertArrayHasKey('message', $response->original);
+        $this->assertArrayHasKey('payment', $response->original);
+    }
 }
