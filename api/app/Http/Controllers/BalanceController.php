@@ -53,7 +53,6 @@ class BalanceController extends Controller
             $balancesToProcess = Balance::all();
             $balances = $this->usedValueProcessing($balancesToProcess);
 
-
             return response()->json(
                 [
                     'message' => 'All balances retrieved successfully!',

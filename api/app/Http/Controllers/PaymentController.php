@@ -100,4 +100,27 @@ class PaymentController extends Controller
             );
         }
     }
+
+    public function getAllPayments(): JsonResponse
+    {
+        try {
+
+            $payments = Payment::all();
+
+            return response()->json(
+                [
+                    'message' => 'All payments retrieved successfully!',
+                    'payments' => $payments
+                ],
+                Response::HTTP_OK
+            );
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'message' => 'Failed to retrieve payments. Please try again later.'
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
 }

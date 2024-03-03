@@ -191,4 +191,20 @@ class ApiTest extends TestCase
 
         $response->assertStatus(Response::HTTP_CREATED);
     }
+
+    /**
+     *  @test
+     */
+    public function testPaymentGetRouteSuccess()
+    {
+        $user = User::factory()->create();
+
+        $token = $user->createToken('token')->plainTextToken;
+
+        $response =  $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/payment');
+
+        $response->assertStatus(Response::HTTP_OK);
+    }
 }
