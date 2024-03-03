@@ -153,4 +153,47 @@ class PaymentController extends Controller
             );
         }
     }
+
+    public function updatePayment(Request $request, $id): JsonResponse
+    {
+
+        try {
+            $validatedData = $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'description' => ['required', 'string', 'max:255'],
+            ]);
+
+            $payment = Payment::findOrFail($id);
+            $payment->update($validatedData);
+
+            return response()->json(
+                [
+                    'message' => 'Payment updated successfully!'
+                ],
+                Response::HTTP_OK
+            );
+        } catch (ModelNotFoundException $e) {
+            return response()->json(
+                [
+                    'message' => 'Payment not found.'
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        } catch (ValidationException $e) {
+            $errors = $e->validator->errors()->toArray();
+            return response()->json(
+                [
+                    'message' => $errors
+                ],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'message' => 'Failed to update payment. Please try again later.'
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
 }

@@ -206,4 +206,26 @@ class PaymentControllerTest extends TestCase
         $this->assertArrayHasKey('message', $response->original);
         $this->assertArrayHasKey('payment', $response->original);
     }
+
+    public function testPaymentUpdateSuccess()
+    {
+        $payment = Payment::factory()->create();
+
+        $requestData = [
+            'name' => 'Payment Test Update',
+            'description' => 'Payment Test description update',
+        ];
+
+        $request = new Request($requestData);
+
+        $response = $this->paymentController->updatePayment($request, $payment->id);
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $this->assertArrayHasKey('message', $response->original);
+
+        $responseData = $response->getData(true);
+
+        $this->assertEquals('Payment updated successfully!', $responseData['message']);
+    }
 }

@@ -142,7 +142,6 @@ class ApiTest extends TestCase
             [
                 'name' => 'Balance Test Update',
                 'description' => 'Balance Test description Update',
-                'initial_value' => 10001.98,
             ]
         );
 
@@ -222,6 +221,28 @@ class ApiTest extends TestCase
         $response =  $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
         ])->get('/api/payment/' . $payment->id);
+
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
+    /**
+     *  @test
+     */
+    public function testPaymentUpdateRouteSuccess()
+    {
+
+        $user = User::factory()->create();
+        $payment = Payment::factory()->create();
+
+        $token = $user->createToken('token')->plainTextToken;
+
+        $response =  $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->patch('/api/payment/' . $payment->id, [
+            'name' => 'Balance Test',
+            'description' => 'Balance Test description'
+
+        ]);
 
         $response->assertStatus(Response::HTTP_OK);
     }
