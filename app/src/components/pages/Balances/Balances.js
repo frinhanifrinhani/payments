@@ -1,7 +1,10 @@
 import api from '../../../utils/api'
 import { useState, useEffect } from "react"
+import { useNavigate } from 'react-router-dom'
 import { Link } from "react-router-dom"
 import useFlashMessage from '../../../hooks/useFlashMessage'
+
+import Modal from 'react-modal';
 
 import styles from './Dashboard.module.css'
 
@@ -9,6 +12,11 @@ function Balances() {
     const [balances, setBalances] = useState([])
     const [token] = useState(localStorage.getItem('token'))
     const { setFlashMessage } = useFlashMessage()
+
+    const [modalIsOpen, setModalOpen] = useState(false);
+    const [balanceId, setBalanceIdToRemove] = useState(null);
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         api.get('/balance', {
@@ -20,13 +28,18 @@ function Balances() {
         })
     }, [token])
 
-    /*async function removeBalance(id) {
+    async function removeBalance(id) {
+        setModalOpen(true);
+        setBalanceIdToRemove(id);
+    }
+
+    async function confirmRemoveBalance() {
+        setModalOpen(false);
         let msgType = 'success'
 
-        const data = await api.delete(`/balances/${id}`)
+        const data = await api.delete(`/balance/${balanceId}`)
             .then((response) => {
-                const updatedBalances = balances.filter((balance) => balance._id !== id)
-                setBalances(updatedBalances)
+                fetchBalances()
                 return response.data
             })
             .catch((error) => {
@@ -35,7 +48,22 @@ function Balances() {
             })
 
         setFlashMessage(data.message, msgType)
-    }*/
+
+    }
+
+    async function fetchBalances() {
+        api.get('/balance', {
+            headers: {
+                Authorization: `Bearer ${JSON.parse(token)}`
+            }
+        }).then((response) => {
+            setBalances(response.data.balances)
+        })
+    }
+
+    function cancelRemoveBalance() {
+        setModalOpen(false);
+    }
 
     return (
         <section>
@@ -69,7 +97,9 @@ function Balances() {
                             <div className={styles.record}>R$ {balance.remaining_value}</div>
                             <div className={styles.record}>
                                 <Link className={styles.edit} to={`/balance/edit/${balance.id}`}>Editar</Link>
-                                <Link className={styles.delete} to={`/balance/delete/${balance.id}`}>Delete</Link>
+                                <button className={styles.delete} onClick={() => {
+                                    removeBalance(balance.id)
+                                }} >Excluir</button>
                             </div>
                         </div>
                     )
@@ -78,6 +108,18 @@ function Balances() {
                 }
                 {balances.length === 0 && <p>Não existem saldos para serem mostrados</p>}
             </div>
+
+            <Modal
+                className={styles.modal}
+                isOpen={modalIsOpen}
+                onRequestClose={() => setModalOpen(false)}
+                contentLabel="Excluir pedido"
+            >
+                <h2>Excluir pedido?</h2>
+                <p>Ao excluir este saldo a ação não poderá ser revertida. Tem certeza que deseja excluir?</p>
+                <button className={styles.delete} onClick={confirmRemoveBalance}>Sim</button>
+                <button className={styles.no_delete} onClick={cancelRemoveBalance}>Não</button>
+            </Modal>
 
         </section >
     )
