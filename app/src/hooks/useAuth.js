@@ -20,8 +20,8 @@ export default function useAuth() {
 
     async function register(user) {
 
-        let msgText = ''
-        let msgType = ''
+        let msgText
+        let msgType
 
         try {
 
@@ -64,20 +64,28 @@ export default function useAuth() {
     }
 
     async function login(user) {
-        let msgText = 'Login realizado com sucesso'
-        let msgType = 'success'
+        let msgText
+        let msgType
 
         try {
 
-            const data = await api.post('/users/login', user).
+            const data = await api.post('/login', user).
                 then((response) => {
                     return response.data
                 })
 
             await authUser(data)
 
+            msgText = 'Login realizado com sucesso'
+            msgType = 'success'
+
         } catch (error) {
-            msgText = error.response.data.message
+            const errorsArray = Object.entries(error.response.data.message)
+
+            const errorMessages = errorsArray.map(([field, messages]) => {
+
+                msgText = messages
+            })
             msgType = 'error'
         }
 
