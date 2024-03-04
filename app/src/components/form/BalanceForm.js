@@ -2,7 +2,7 @@ import { useState } from "react"
 import formStyles from './Form.module.css'
 import Input from "./Input"
 
-function BalanceForm({ handleSubmit, balanceData, btnText }) {
+function BalanceForm({ handleSubmit, balanceData, disabled, readonly, btnText }) {
     const [balance, setBalance] = useState(balanceData || {})
 
     function hanleChange(e) {
@@ -38,7 +38,10 @@ function BalanceForm({ handleSubmit, balanceData, btnText }) {
                 text="Valor inicial"
                 type="number"
                 name="initial_value"
+                disabled={disabled ? true : false}
+                readonly={readonly ? true : false}
                 handleOnChange={hanleChange}
+                value={balance.initial_value || ''}
             />
 
             <input type="submit" value={btnText} />

@@ -63,10 +63,10 @@ function Balances() {
                     balances.map((balance) => (
                         <div className={styles.balances} >
                             <div className={styles.record}>{balance.name}</div>
-                            <div className={styles.record_header_big}>{balance.description.slice(0, 20)}...</div>
-                            <div className={styles.record}>{balance.initial_value}</div>
-                            <div className={styles.record}>{balance.used_value}</div>
-                            <div className={styles.record}>{balance.remaining_value}</div>
+                            <div className={styles.record_header_big}>{balance.description.slice(0, 65)}...</div>
+                            <div className={styles.record}>R$ {balance.initial_value}</div>
+                            <div className={styles.record}>R$ {balance.used_value}</div>
+                            <div className={styles.record}>R$ {balance.remaining_value}</div>
                             <div className={styles.record}>
                                 <Link className={styles.edit} to={`/balance/edit/${balance.id}`}>Editar</Link>
                                 <Link className={styles.delete} to={`/balance/delete/${balance.id}`}>Delete</Link>
@@ -76,7 +76,7 @@ function Balances() {
                     )
                 )
                 }
-                {balances.length === 0 && <p>Não há Balances cadastrados</p>}
+                {balances.length === 0 && <p>Não existem saldos para serem mostrados</p>}
             </div>
 
         </section >

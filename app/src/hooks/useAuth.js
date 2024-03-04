@@ -40,11 +40,9 @@ export default function useAuth() {
 
             const errorsArray = Object.entries(error.response.data.message)
 
-            const errorMessages = errorsArray.map(([field, messages]) => {
-                /*const fieldErrors = messages.map((message, index) => (
-                    msgText += `${messages}`
-                ))*/
+            const reversedArray = errorsArray.reverse();
 
+            reversedArray.map(([field, messages]) => {
                 msgText = messages
             })
             msgType = 'error'

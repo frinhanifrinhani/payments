@@ -8,6 +8,8 @@ function Input({
     handleOnChange,
     value,
     multiple,
+    readonly,
+    disabled,
 }) {
     return (
         <div className={styles.form_control}>
@@ -18,6 +20,8 @@ function Input({
                 id={name}
                 placeholder={placeholder}
                 value={value}
+                readonly={readonly}
+                disabled={disabled}
                 onChange={handleOnChange}
                 {...(multiple ? { multiple } : '')}
             />

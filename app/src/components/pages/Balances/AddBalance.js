@@ -15,16 +15,10 @@ function AddBalance() {
     const navigate = useNavigate()
 
     async function registerBalance(balance) {
-        let msgType = 'success'
         let message;
+        let msgType = 'success'
 
-        const formData = new FormData()
-
-        await Object.keys(balance).forEach((key) => {
-            formData.append(key, balance[key])
-        })
-
-        const data = await api.post(`/balance`, formData, {
+        const data = await api.post(`/balance`, balance, {
             headers: {
                 Authorization: `Bearer ${JSON.parse(token)}`,
             },
@@ -37,7 +31,9 @@ function AddBalance() {
 
             const errorsArray = Object.entries(error.response.data.message)
 
-            errorsArray.map(([field, messages]) => {
+            const reversedArray = errorsArray.reverse();
+
+            reversedArray.map(([field, messages]) => {
 
                 message = messages
             })
