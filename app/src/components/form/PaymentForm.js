@@ -6,10 +6,12 @@ import Input from "./Input"
 import Select from "./SelectBalance"
 
 
-function PaymentForm({ handleSubmit, paymentData, btnText }) {
+function PaymentForm({ handleSubmit, paymentData, disabled, readonly, btnText }) {
     const [payment, setPayment] = useState(paymentData || {})
     const [token] = useState(localStorage.getItem('token'))
     const [balances, setBalances] = useState([]);
+
+
 
     useEffect(() => {
         api.get('/balance', {
@@ -31,7 +33,7 @@ function PaymentForm({ handleSubmit, paymentData, btnText }) {
 
     function submit(e) {
         e.preventDefault()
-        console.log(payment)
+
         handleSubmit(payment)
     }
 
@@ -61,6 +63,8 @@ function PaymentForm({ handleSubmit, paymentData, btnText }) {
                 text="Valor"
                 type="number"
                 name="value"
+                disabled={disabled ? true : false}
+                readonly={readonly ? true : false}
                 placeholder="Digite o valor do payment"
                 handleOnChange={hanleChange}
                 value={payment.value || ''}
@@ -72,7 +76,11 @@ function PaymentForm({ handleSubmit, paymentData, btnText }) {
                 options={balances}
                 handleOnChange={handleBalance}
                 value={payment.balance_id || ''}
+                returnedOption={payment.balance || ''}
+                disabled={disabled ? true : false}
+                readonly={readonly ? true : false}
                 chosenOption={payment.chosenOption}
+
             />
 
             <input type="submit" value={btnText} />

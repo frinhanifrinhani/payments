@@ -22,6 +22,17 @@
     background-color: #1c8a42;
 }
 
+input[readonly],
+input[disabled] {
+    background: #EEE;
+
+}
+
+select[readonly],
+select[disabled] {
+    background: #DDD;
+}
+
 .form_container p {
     margin-top: 1em;
 }

@@ -19,6 +19,7 @@ import AddBalance from './components/pages/Balances/AddBalance'
 import EditBalance from './components/pages/Balances/EditBalance'
 import Payments from './components/pages/Payments/Payments'
 import AddPayment from './components/pages/Payments/AddPayment'
+import EditPayment from './components/pages/Payments/EditPayment'
 
 import { UserProvider } from './context/UserContext'
 
@@ -38,6 +39,7 @@ function App() {
             <Route path='/balance/edit/:id' element={<EditBalance />} />
             <Route path='/payment' element={<Payments />} />
             <Route path='/payment/add' element={<AddPayment />} />
+            <Route path='/payment/edit/:id' element={<EditPayment />} />
             <Route path='/' element={<Home />} />
           </Routes>
         </Container>

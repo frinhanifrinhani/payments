@@ -18,7 +18,7 @@ function AddPayment() {
         let message;
         let msgType = 'success'
 
-        const data = await api.post(`/payment`, payment, {
+        await api.post(`/payment`, payment, {
             headers: {
                 Authorization: `Bearer ${JSON.parse(token)}`,
             },

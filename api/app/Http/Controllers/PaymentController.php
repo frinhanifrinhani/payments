@@ -109,8 +109,9 @@ class PaymentController extends Controller
 
     public function getPaymentById($id): JsonResponse
     {
+
         try {
-            $payment = Payment::findOrFail($id);
+            $payment = Payment::with('balance')->findOrFail($id);
 
             return response()->json(
                 [
