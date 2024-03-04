@@ -14,7 +14,7 @@ function Navbar() {
     return (
         <nav className={styles.navbar}>
             <div className={styles.navbar_logo}>
-                <img src={Logo} alt="Get A Pet" />
+                <img src={Logo} alt="Saldos" />
                 <h2>Payments</h2>
             </div>
             <ul>
@@ -22,7 +22,7 @@ function Navbar() {
                 {authenticated ? (
                     <>
                         <li >
-                            <NavLink to="/pet/mypets">Saldos</NavLink>
+                            <NavLink to="/balance">Saldos</NavLink>
                         </li>
                         <li >
                             <NavLink to="/pet/mypets">Pagamentos</NavLink>

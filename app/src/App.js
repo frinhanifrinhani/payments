@@ -14,7 +14,7 @@ import Home from './components/pages/Home'
 import Register from './components/pages/Auth/Register'
 import Login from './components/pages/Auth/Login'
 import Profile from './components/pages/User/Profile'
-import MyPets from './components/pages/Pet/MyPets'
+import Balances from './components/pages/Balances/Balances'
 import AddPet from './components/pages/Pet/AddPet'
 import EditPet from './components/pages/Pet/EditPet'
 
@@ -31,7 +31,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/user/profile' element={<Profile />} />
-            <Route path='/pet/mypets' element={<MyPets />} />
+            <Route path='/balance' element={<Balances />} />
             <Route path='/pet/add' element={<AddPet />} />
             <Route path='/pet/edit/:id' element={<EditPet />} />
             <Route path='/' element={<Home />} />
