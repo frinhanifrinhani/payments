@@ -1,4 +1,4 @@
-.balanceslist_header {
+.paymentslist_header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -7,11 +7,11 @@
     border-bottom: 1px solid #ddd;
 }
 
-.balanceslist_header h1 {
+.paymentslist_header h1 {
     margin: 0;
 }
 
-.balanceslist_header a {
+.paymentslist_header a {
     text-decoration: none;
     background-color: #25b456;
     color: #fff;
@@ -23,19 +23,19 @@
     border: 2px solid #FFF;
 }
 
-.balanceslist_header a:hover {
+.paymentslist_header a:hover {
     background-color: #FFF;
     color: #1c8a42;
     border: 2px solid #1c8a42;
 }
 
 /*list*/
-.balances {
+.payments {
     margin-top: 20px;
     color: #555;
 }
 
-.balances_header {
+.payments_header {
     display: flex;
     justify-content: space-between;
     padding-bottom: 10px;
@@ -57,7 +57,7 @@
     font-weight: bold;
 }
 
-.balances {
+.payments {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -79,7 +79,7 @@
     width: calc(35%);
 }
 
-.balances a,
+.payments a,
 button {
     padding: 6px 12px;
     border-radius: 10px;

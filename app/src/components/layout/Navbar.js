@@ -25,7 +25,7 @@ function Navbar() {
                             <NavLink to="/balance">Saldos</NavLink>
                         </li>
                         <li >
-                            <NavLink to="/pet/mypets">Pagamentos</NavLink>
+                            <NavLink to="/payment">Pagamentos</NavLink>
                         </li>
                         <li >
                             <NavLink to="/user/profile">Perfil</NavLink>

@@ -1,6 +1,5 @@
 import api from '../../../utils/api'
 import { useState, useEffect } from "react"
-import { useNavigate } from 'react-router-dom'
 import { Link } from "react-router-dom"
 import useFlashMessage from '../../../hooks/useFlashMessage'
 
@@ -15,8 +14,6 @@ function Balances() {
 
     const [modalIsOpen, setModalOpen] = useState(false);
     const [balanceId, setBalanceIdToRemove] = useState(null);
-
-    const navigate = useNavigate()
 
     useEffect(() => {
         api.get('/balance', {
@@ -115,7 +112,7 @@ function Balances() {
                 onRequestClose={() => setModalOpen(false)}
                 contentLabel="Excluir pedido"
             >
-                <h2>Excluir pedido?</h2>
+                <h2>Excluir saldo?</h2>
                 <p>Ao excluir este saldo a ação não poderá ser revertida. Tem certeza que deseja excluir?</p>
                 <button className={styles.delete} onClick={confirmRemoveBalance}>Sim</button>
                 <button className={styles.no_delete} onClick={cancelRemoveBalance}>Não</button>
