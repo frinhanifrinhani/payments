@@ -16,7 +16,6 @@ function Balances() {
                 Authorization: `Bearer ${JSON.parse(token)}`
             }
         }).then((response) => {
-            console.log(response.data.balances);
             setBalances(response.data.balances)
         })
     }, [token])
@@ -69,8 +68,8 @@ function Balances() {
                             <div className={styles.record}>{balance.used_value}</div>
                             <div className={styles.record}>{balance.remaining_value}</div>
                             <div className={styles.record}>
-                                <a className={styles.edit} href="">Editar</a>
-                                <a className={styles.delete} href="">Excluir</a>
+                                <Link className={styles.edit} to={`/balance/edit/${balance.id}`}>Editar</Link>
+                                <Link className={styles.delete} to={`/balance/delete/${balance.id}`}>Delete</Link>
                             </div>
                         </div>
                     )
@@ -83,14 +82,5 @@ function Balances() {
         </section >
     )
 }
-/*
-balances.map((balance) => ())
-*/
-/*
-balances.map((balance) => (
-
-    <div>teste</div>
-
-))*/
 
 export default Balances
