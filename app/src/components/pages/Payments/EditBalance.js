@@ -40,11 +40,19 @@ function EditBalance() {
             return message;
         }).catch((error) => {
 
-            const errorsArray = Object.entries(error.response.data.message)
+            const typeResponseError = typeof error.response.data.message;
 
-            const reversedArray = errorsArray.reverse();
+            let errors
+            if (typeResponseError === 'object') {
+                errors = Object.entries(error.response.data.message).reverse()
+            }
 
-            reversedArray.map(([field, messages]) => {
+            if (typeResponseError === 'string') {
+                errors = Object.entries(error.response.data)
+            }
+
+            errors.map(([field, messages]) => {
+
                 message = messages
             })
             msgType = 'error'
