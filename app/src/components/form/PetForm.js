@@ -1,7 +1,7 @@
 import { useState } from "react"
 import formStyles from './Form.module.css'
 import Input from "./Input"
-import Select from "./Select"
+import Select from "./SelectBalance"
 
 function PetForm({ handleSubmit, petData, btnText }) {
     const [pet, setPet] = useState(petData || {})

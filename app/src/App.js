@@ -15,9 +15,10 @@ import Register from './components/pages/Auth/Register'
 import Login from './components/pages/Auth/Login'
 import Profile from './components/pages/User/Profile'
 import Balances from './components/pages/Balances/Balances'
-import Payments from './components/pages/Payments/Payments'
 import AddBalance from './components/pages/Balances/AddBalance'
 import EditBalance from './components/pages/Balances/EditBalance'
+import Payments from './components/pages/Payments/Payments'
+import AddPayment from './components/pages/Payments/AddPayment'
 
 import { UserProvider } from './context/UserContext'
 
@@ -36,6 +37,7 @@ function App() {
             <Route path='/balance/add' element={<AddBalance />} />
             <Route path='/balance/edit/:id' element={<EditBalance />} />
             <Route path='/payment' element={<Payments />} />
+            <Route path='/payment/add' element={<AddPayment />} />
             <Route path='/' element={<Home />} />
           </Routes>
         </Container>

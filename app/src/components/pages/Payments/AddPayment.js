@@ -1,24 +1,24 @@
 import api from '../../../utils/api'
 
-import styles from './AddBalance.module.css'
+import styles from './AddPayment.module.css'
 
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import useFlashMessage from '../../../hooks/useFlashMessage'
 
-import BalanceForm from '../../form/BalanceForm'
+import PaymentForm from '../../form/PaymentForm'
 
-function AddBalance() {
+function AddPayment() {
     const [token] = useState(localStorage.getItem('token') || '')
     const { setFlashMessage } = useFlashMessage()
     const navigate = useNavigate()
 
-    async function registerBalance(balance) {
+    async function registerPayment(payment) {
         let message;
         let msgType = 'success'
 
-        const data = await api.post(`/balance`, balance, {
+        const data = await api.post(`/payment`, payment, {
             headers: {
                 Authorization: `Bearer ${JSON.parse(token)}`,
             },
@@ -44,19 +44,19 @@ function AddBalance() {
         setFlashMessage(message, msgType)
 
         if (msgType !== 'error') {
-            navigate('/balance')
+            navigate('/payment')
         }
     }
 
     return (
-        <section className={styles.addbalance_header}>
+        <section className={styles.addpayment_header}>
             <div >
-                <h1>Cadastro de Saldos</h1>
+                <h1>Cadastro de Pagamentos</h1>
             </div>
-            <BalanceForm handleSubmit={registerBalance} btnText="Cadastrar" />
+            <PaymentForm handleSubmit={registerPayment} btnText="Cadastrar" />
 
         </section >
     )
 }
 
-export default AddBalance
+export default AddPayment

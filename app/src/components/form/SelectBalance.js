@@ -1,6 +1,6 @@
 import styles from './Select.module.css'
 
-function Select({ text, name, options, handleOnChange, value }) {
+function SelectBalance({ text, name, options, handleOnChange, value, chosenOption }) {
 
     return (
         <div className={styles.form_control}>
@@ -10,13 +10,14 @@ function Select({ text, name, options, handleOnChange, value }) {
                 id={name}
                 onChange={handleOnChange}
                 value={value || ''}>
-                <option value={value}>{value || 'Selecione'}</option>
+                <option value={value}>{chosenOption || 'Selecione um saldo'}</option>
                 {options.map((option) => (
-                    <option value={option} key={option}>{option}</option>
+
+                    < option value={option.id} key={option.id} > {option.name} - R$ {parseFloat(option.initial_value) - parseFloat(option.used_value)}</option>
                 ))}
             </select>
-        </div>
+        </div >
     )
 }
 
-export default Select
+export default SelectBalance
