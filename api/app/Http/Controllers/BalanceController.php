@@ -51,7 +51,7 @@ class BalanceController extends Controller
 
         try {
 
-            $balancesToProcess = Balance::all();
+            $balancesToProcess = Balance::orderBy('id', 'desc')->get();
             $balances = $this->usedValueProcessing($balancesToProcess);
 
             return response()->json(

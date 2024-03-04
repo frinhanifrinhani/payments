@@ -88,7 +88,7 @@ class PaymentController extends Controller
     {
         try {
 
-            $payments = Payment::all();
+            $payments = Payment::orderBy('id', 'desc')->get();
 
             return response()->json(
                 [
