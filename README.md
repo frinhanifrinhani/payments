@@ -59,7 +59,7 @@ Para instalação deste projeto é necessario ter instalados:
 
 ## Utilizando a API
 
-- Na raiz do projeto existe o arquivo Payments.postman_collection.json que pode ser importado em algum API Client desejado,
+Na raiz do projeto existe o arquivo Payments.postman_collection.json que pode ser importado em algum API Client desejado,
 uma vez importando, você terá acesso os recurso da API, na imagem a seguir é possível ver os recursos atráves do Postman.
 
 ![Postman](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/postman.png)
@@ -72,7 +72,7 @@ uma vez importando, você terá acesso os recurso da API, na imagem a seguir é 
 
 ![Home](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/home.png)
 
-
+### Autenticação
 - Acesse o menu Cadastar e realize o cadastro de um usuário.
   
 ![Cadastrar usuario](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/register.png)
@@ -81,7 +81,21 @@ uma vez importando, você terá acesso os recurso da API, na imagem a seguir é 
 - Após cadastrar um usuário, você será redirecionado para a tela de login, utilize o e-mail e senha que foram cadastrados para realizar a autenticação.
 
 ![login](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/login.png)
-  
+
+
+
+### Saldos
+
+Através do menu Saldos, será possível listar os saldos, cadastrar um saldo, editar um saldo e excluír um saldo.
+Saldos com pagamentos vinculados não podem ser excluídos.
+
+
+
+
+### Pagamentos
+
+Através do menu Pagamentos, será possível listar os pagamentos, cadastrar um pagamento, editar um pagamento e excluír um pagamento.
+Os valores dos pagamentos excluídos são devolvidos os seus saldos.
   
   
 
