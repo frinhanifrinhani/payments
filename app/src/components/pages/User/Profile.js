@@ -8,11 +8,11 @@ import Input from '../../form/Input'
 import RoundedImage from '../../layout/RoundedImage'
 
 function Profile() {
+
     const [user, setUser] = useState({})
-    const [preview, setPreview] = useState()
     const [token] = useState(localStorage.getItem('token') || '')
     const { setFlashMessage } = useFlashMessage()
-
+    console.log('here')
     useEffect(() => {
         api.get('/users/checkuser', {
             headers: {
@@ -22,11 +22,6 @@ function Profile() {
             setUser(response.data)
         })
     }, [token])
-
-    function onFileChange(e) {
-        setPreview(e.target.files[0])
-        setUser({ ...user, [e.target.name]: e.target.files[0] })
-    }
 
     function handleChange(e) {
         setUser({ ...user, [e.target.name]: e.target.value })
@@ -60,24 +55,9 @@ function Profile() {
 
     return (
         < section >
-            <div className={styles.profile_header}>
-                <h1>Perfil</h1>
-                {(user.image || preview) && (
-                    <RoundedImage
-                        src={preview
-                            ? URL.createObjectURL(preview)
-                            : `${process.env.REACT_APP_API}/images/users/${user.image}`}
-                        alt={user.name} />
-                )}
-            </div>
 
             <form onSubmit={handleSubmit} className={formStyles.form_container}>
-                <Input
-                    text="Imagem"
-                    type="file"
-                    name="image"
-                    handleOnChange={onFileChange}
-                />
+
                 <Input
                     text="Nome"
                     type="text"

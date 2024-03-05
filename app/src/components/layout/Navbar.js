@@ -27,9 +27,6 @@ function Navbar() {
                         <li >
                             <NavLink to="/payment">Pagamentos</NavLink>
                         </li>
-                        <li >
-                            <NavLink to="/user/profile">Perfil</NavLink>
-                        </li>
                         <li onClick={logout}>Sair</li>
                     </>
                 ) : (

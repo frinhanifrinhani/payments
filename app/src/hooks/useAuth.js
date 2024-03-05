@@ -30,11 +30,10 @@ export default function useAuth() {
                     return response.data
                 })
 
-            await authUser(data)
+            navigate('/login')
 
             msgText = 'Cadastro realizado com sucesso!'
             msgType = 'success'
-
 
         } catch (error) {
 

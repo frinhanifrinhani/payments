@@ -33,7 +33,6 @@ function App() {
           <Routes>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
-            <Route path='/user/profile' element={<Profile />} />
             <Route path='/balance' element={<Balances />} />
             <Route path='/balance/add' element={<AddBalance />} />
             <Route path='/balance/edit/:id' element={<EditBalance />} />

@@ -67,6 +67,7 @@ class AuthController extends Controller
             $user = Auth::user();
             $token = $user->createToken('token')->plainTextToken;
 
+            $request->session()->regenerate();
             return response()->json(
                 [
                     'message' => 'Login successfully!',
@@ -74,7 +75,7 @@ class AuthController extends Controller
                     'token' =>  $token
                 ],
                 Response::HTTP_OK
-            );
+            )->withCookie(cookie('payments_cookie', $token, 720));
         }
 
         return response()->json(
