@@ -40,6 +40,7 @@ Para instalação deste projeto é necessario ter instalados:
 
 
 - Acesse o container da API para executar as migrations, com o comando  `docker exec -it payments-api-1 bash`
+
   OBS: payments-api-1 é o nome do container, como mostra a imagem seguinte.
   
 ![API bash](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/api_bash.png)
