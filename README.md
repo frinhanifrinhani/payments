@@ -5,12 +5,15 @@ Este projeto permite ao usuário cadastrar saldos e pagamentos, sendo que cada p
 ## Instalação
 
 Para instalação deste projeto é necessario ter instalados:
+- Git
 - Docker
 - Mysql
 
 ## Como instalar
 
 - Clone o projeto em um diretorio da sua escolha.
-`git clone https://github.com/seu-usuario/seu-repositorio.git`
+- Abra o terminal na raiz do projeto que foi clonado.
+  
+  ![git clone]([https://caminho/para/sua/imagem.png](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/git_clone.png)https://github.com/frinhanifrinhani/image-repo/blob/main/payments/git_clone.png)
 
   
