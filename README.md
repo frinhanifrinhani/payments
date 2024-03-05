@@ -109,16 +109,25 @@ Exclusão de saldo com pagamento
 
 
 
-![]()
-![]()
-![]()
-![]()
-
 ### Pagamentos
 
 Através do menu Pagamentos, será possível listar os pagamentos, cadastrar um pagamento, editar um pagamento e excluír um pagamento.
 Os valores dos pagamentos excluídos são devolvidos os seus saldos.
-  
+
+
+![Listagem de pagamentos](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/pagamentos.png)
+Listagem de pagamentos
+
+![Cadastro pagamento](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/cadastrar_pagamento.png)
+Cadastro de pagamento
+
+
+![Editar pagamento](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/editar_pagamento.png)
+Edição de pagamento
+
+
+![Excluir pagamento](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/Excluir_pagamento.png)
+Exclusão de pagamento
   
 
   
