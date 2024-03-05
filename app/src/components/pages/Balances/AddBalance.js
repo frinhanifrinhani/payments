@@ -1,5 +1,5 @@
 import api from '../../../utils/api'
-
+import translate from '../../../utils/translate'
 import styles from './AddBalance.module.css'
 
 import { useState } from 'react'
@@ -9,16 +9,19 @@ import useFlashMessage from '../../../hooks/useFlashMessage'
 
 import BalanceForm from '../../form/BalanceForm'
 
-function AddBalance() {
+function AddBalance({ language }) {
     const [token] = useState(localStorage.getItem('token') || '')
     const { setFlashMessage } = useFlashMessage()
     const navigate = useNavigate()
+
+    const lang = language || 'pt';
+    const getTranslation = key => translate[lang][key] || key;
 
     async function registerBalance(balance) {
         let message;
         let msgType = 'success'
 
-        const data = await api.post(`/balance`, balance, {
+        await api.post(`/balance`, balance, {
             headers: {
                 Authorization: `Bearer ${JSON.parse(token)}`,
             },
@@ -48,7 +51,7 @@ function AddBalance() {
 
         })
 
-        setFlashMessage(message, msgType)
+        setFlashMessage(getTranslation(message), msgType)
 
         if (msgType !== 'error') {
             navigate('/balance')

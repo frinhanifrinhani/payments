@@ -1,5 +1,5 @@
 import api from '../../../utils/api'
-
+import translate from '../../../utils/translate'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
@@ -9,11 +9,14 @@ import BalanceForm from '../../form/BalanceForm'
 
 import useFlashMessage from '../../../hooks/useFlashMessage'
 
-function EditBalance() {
+function EditBalance({ language }) {
     const [balance, setBalance] = useState({})
     const [token] = useState(localStorage.getItem('token') || '')
     const { id } = useParams()
     const { setFlashMessage } = useFlashMessage()
+
+    const lang = language || 'pt';
+    const getTranslation = key => translate[lang][key] || key;
 
     useEffect(() => {
         api.get(`/balance/${id}`, {
@@ -58,7 +61,7 @@ function EditBalance() {
             msgType = 'error'
         })
 
-        setFlashMessage(message, msgType)
+        setFlashMessage(getTranslation(message), msgType)
     }
 
     return (

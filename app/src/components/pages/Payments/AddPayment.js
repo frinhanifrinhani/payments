@@ -1,5 +1,5 @@
 import api from '../../../utils/api'
-
+import translate from '../../../utils/translate'
 import styles from './AddPayment.module.css'
 
 import { useState } from 'react'
@@ -9,10 +9,13 @@ import useFlashMessage from '../../../hooks/useFlashMessage'
 
 import PaymentForm from '../../form/PaymentForm'
 
-function AddPayment() {
+function AddPayment({ language }) {
     const [token] = useState(localStorage.getItem('token') || '')
     const { setFlashMessage } = useFlashMessage()
     const navigate = useNavigate()
+
+    const lang = language || 'pt';
+    const getTranslation = key => translate[lang][key] || key;
 
     async function registerPayment(payment) {
         let message;
@@ -48,7 +51,7 @@ function AddPayment() {
 
         })
 
-        setFlashMessage(message, msgType)
+        setFlashMessage(getTranslation(message), msgType)
 
         if (msgType !== 'error') {
             navigate('/payment')

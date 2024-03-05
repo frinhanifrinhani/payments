@@ -1,5 +1,5 @@
 import api from '../../../utils/api'
-
+import translate from '../../../utils/translate'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
@@ -9,11 +9,14 @@ import PaymentForm from '../../form/PaymentForm'
 
 import useFlashMessage from '../../../hooks/useFlashMessage'
 
-function EditPayment() {
+function EditPayment({ language }) {
     const [payment, setPayment] = useState({})
     const [token] = useState(localStorage.getItem('token') || '')
     const { id } = useParams()
     const { setFlashMessage } = useFlashMessage()
+
+    const lang = language || 'pt';
+    const getTranslation = key => translate[lang][key] || key;
 
     useEffect(() => {
         api.get(`/payment/${id}`, {
@@ -56,7 +59,7 @@ function EditPayment() {
             msgType = 'error'
         })
 
-        setFlashMessage(message, msgType)
+        setFlashMessage(getTranslation(message), msgType)
     }
 
     return (

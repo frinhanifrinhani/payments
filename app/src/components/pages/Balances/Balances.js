@@ -1,4 +1,5 @@
 import api from '../../../utils/api'
+import translate from '../../../utils/translate'
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import useFlashMessage from '../../../hooks/useFlashMessage'
@@ -7,13 +8,16 @@ import Modal from 'react-modal';
 
 import styles from './Dashboard.module.css'
 
-function Balances() {
+function Balances({ language }) {
     const [balances, setBalances] = useState([])
     const [token] = useState(localStorage.getItem('token'))
     const { setFlashMessage } = useFlashMessage()
 
     const [modalIsOpen, setModalOpen] = useState(false);
     const [balanceId, setBalanceIdToRemove] = useState(null);
+
+    const lang = language || 'pt';
+    const getTranslation = key => translate[lang][key] || key;
 
     useEffect(() => {
         api.get('/balance', {
@@ -44,7 +48,7 @@ function Balances() {
                 return error.response.data
             })
 
-        setFlashMessage(data.message, msgType)
+        setFlashMessage(getTranslation(data.message), msgType)
 
     }
 
