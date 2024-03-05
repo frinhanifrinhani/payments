@@ -89,8 +89,30 @@ uma vez importando, você terá acesso os recurso da API, na imagem a seguir é 
 Através do menu Saldos, será possível listar os saldos, cadastrar um saldo, editar um saldo e excluír um saldo.
 Saldos com pagamentos vinculados não podem ser excluídos.
 
+![Saldos](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/saldos.png)
+Listagem de saldos.
+
+![Cadastro de Saldo](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/cadastro_saldo.png)
+Cadastro de saldo
 
 
+![Editar saldo](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/Editar_saldo.png)
+Edição de saldo
+
+
+![Excluir saldo](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/Excluir_saldo.png)
+Exclusão de saldo
+
+
+![Excluir sado com pagamento](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/Excluir_saldo_com_pagamento.png)
+Exclusão de saldo com pagamento
+
+
+
+![]()
+![]()
+![]()
+![]()
 
 ### Pagamentos
 
