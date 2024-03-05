@@ -1,6 +1,8 @@
 import api from '../../../utils/api'
 import translations from '../../../utils/translate'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { useParams } from 'react-router-dom'
 
 import styles from './AddBalance.module.css'
@@ -14,6 +16,7 @@ function EditBalance({ language }) {
     const [token] = useState(localStorage.getItem('token') || '')
     const { id } = useParams()
     const { setFlashMessage } = useFlashMessage()
+    const navigate = useNavigate()
 
     const lang = language || 'pt';
     const getTranslation = key => translations[lang][key] || key;
@@ -62,6 +65,10 @@ function EditBalance({ language }) {
         })
 
         setFlashMessage(getTranslation(message), messageType)
+
+        if (messageType !== 'error') {
+            navigate('/balance')
+        }
     }
 
     return (

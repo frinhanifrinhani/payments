@@ -1,6 +1,7 @@
 import api from '../../../utils/api'
 import translate from '../../../utils/translate'
 import { useState, useEffect } from "react"
+import { useNavigate } from 'react-router-dom'
 import { Link } from "react-router-dom"
 import useFlashMessage from '../../../hooks/useFlashMessage'
 
@@ -12,6 +13,7 @@ function Payments({ language }) {
     const [payments, setPayments] = useState([])
     const [token] = useState(localStorage.getItem('token'))
     const { setFlashMessage } = useFlashMessage()
+    const navigate = useNavigate()
 
     const [modalIsOpen, setModalOpen] = useState(false);
     const [paymentId, setPaymentIdToRemove] = useState(null);
@@ -49,6 +51,10 @@ function Payments({ language }) {
             })
 
         setFlashMessage(getTranslation(data.message), messageType)
+
+        if (messageType !== 'error') {
+            navigate('/payment')
+        }
 
     }
 
