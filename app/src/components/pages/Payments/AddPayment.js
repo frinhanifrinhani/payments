@@ -1,5 +1,5 @@
 import api from '../../../utils/api'
-import translate from '../../../utils/translate'
+import translations from '../../../utils/translate'
 import styles from './AddPayment.module.css'
 
 import { useState } from 'react'
@@ -15,7 +15,7 @@ function AddPayment({ language }) {
     const navigate = useNavigate()
 
     const lang = language || 'pt';
-    const getTranslation = key => translate[lang][key] || key;
+    const getTranslation = key => translations[lang][key] || key;
 
     async function registerPayment(payment) {
         let message;

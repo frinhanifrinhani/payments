@@ -1,5 +1,5 @@
 import api from '../../../utils/api'
-import translate from '../../../utils/translate'
+import translations from '../../../utils/translate'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
@@ -16,7 +16,7 @@ function EditBalance({ language }) {
     const { setFlashMessage } = useFlashMessage()
 
     const lang = language || 'pt';
-    const getTranslation = key => translate[lang][key] || key;
+    const getTranslation = key => translations[lang][key] || key;
 
     useEffect(() => {
         api.get(`/balance/${id}`, {
