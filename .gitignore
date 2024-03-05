@@ -5,6 +5,7 @@
 /public/storage
 /storage/*.key
 /node_modules
+package-lock.json
 vendor
 .env
 .env.backup
