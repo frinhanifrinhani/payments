@@ -78,7 +78,7 @@ uma vez importando, você terá acesso os recurso da API, na imagem a seguir é 
 ![Cadastrar usuario](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/register.png)
 
 
-- Após cadastrar um usuário, você será redirecionado para a tela de login, utilize o e-mail e senha que foram cadastrados.
+- Após cadastrar um usuário, você será redirecionado para a tela de login, utilize o e-mail e senha que foram cadastrados para realizar a autenticação.
 
 ![login](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/login.png)
   
