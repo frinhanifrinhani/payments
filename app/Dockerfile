@@ -17,8 +17,6 @@ RUN npm install
 
 RUN chmod -R 755 /var/www/html
 
-RUN npm start
-
 EXPOSE 3000
 
 CMD ["npm", "start"]
