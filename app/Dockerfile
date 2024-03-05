@@ -13,6 +13,8 @@ WORKDIR /var/www/html/
 
 COPY . .
 
+RUN npm install
+
 RUN chmod -R 755 /var/www/html
 
 EXPOSE 3000
