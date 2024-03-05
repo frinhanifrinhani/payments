@@ -20,35 +20,41 @@ export default function useAuth() {
 
     async function register(user) {
 
-        let msgText
-        let msgType
+        let message;
+        let msgType = 'success'
 
         try {
 
-            const data = await api.post('/register', user).
+            await api.post('/register', user).
                 then((response) => {
-                    return response.data
+                    message = response.data.message
+                    return message;
                 })
 
             navigate('/login')
 
-            msgText = 'Cadastro realizado com sucesso!'
-            msgType = 'success'
-
         } catch (error) {
 
-            const errorsArray = Object.entries(error.response.data.message)
+            const typeResponseError = typeof error.response.data.message;
 
-            const reversedArray = errorsArray.reverse();
+            let errors
+            if (typeResponseError === 'object') {
+                errors = Object.entries(error.response.data.message).reverse()
+            }
 
-            reversedArray.map(([field, messages]) => {
-                msgText = messages
+            if (typeResponseError === 'string') {
+                errors = Object.entries(error.response.data)
+            }
+
+            errors.map(([field, messages]) => {
+
+                message = messages
             })
             msgType = 'error'
 
         }
 
-        setFlashMessage(msgText, msgType)
+        setFlashMessage(message, msgType)
     }
 
     async function authUser(data) {
@@ -61,37 +67,44 @@ export default function useAuth() {
     }
 
     async function login(user) {
-        let msgText
-        let msgType
+        let message;
+        let msgType = 'success'
 
         try {
 
-            const data = await api.post('/login', user).
+            await api.post('/login', user).
                 then((response) => {
-                    return response.data
+                    authUser(response.data)
+                    message = response.data.message
+                    return message;
                 })
 
-            await authUser(data)
-
-            msgText = 'Login realizado com sucesso'
-            msgType = 'success'
-
         } catch (error) {
-            const errorsArray = Object.entries(error.response.data.message)
 
-            const errorMessages = errorsArray.map(([field, messages]) => {
+            const typeResponseError = typeof error.response.data.message;
 
-                msgText = messages
+            let errors
+            if (typeResponseError === 'object') {
+                errors = Object.entries(error.response.data.message).reverse()
+            }
+
+            if (typeResponseError === 'string') {
+                errors = Object.entries(error.response.data)
+            }
+
+            errors.map(([field, messages]) => {
+
+                message = messages
             })
             msgType = 'error'
         }
 
-        setFlashMessage(msgText, msgType)
+        setFlashMessage(message, msgType)
 
     }
 
     function logout() {
-        const msgText = 'Logout realizado com sucesso'
+        const msgText = 'Logout realizado com sucesso!'
         const msgType = 'success'
 
         setAuthenticated(false)
