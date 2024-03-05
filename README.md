@@ -54,6 +54,11 @@ Para instalação deste projeto é necessario ter instalados:
 - Ainda dentro do container, execute os teste unitários como comando `php artisan test --testsuite=Unit`
 
 ![Testes unitários](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/teste-php-unit.png)
+
+
+## Utilizando a API
+
+- Na raiz do projeto existe o arquivo Payments.postman_collection.json que pode ser importado em algum API Client desejado.
   
 
 - Acesse no http://localhost:3000 no navegador.
