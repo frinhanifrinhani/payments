@@ -13,10 +13,15 @@ Para instalação deste projeto é necessario ter instalados:
 
 - Clone o projeto em um diretorio da sua escolha.
 
-![git clone](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/git_clone.png)
+![Git clone](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/git_clone.png)
   
 - Abra o terminal na raiz do projeto que foi clonado.
-  
+
+  ![Projeto clonado](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/cd_lsla.png)
+
+- Execute o comando `docker-compose up -d --build`
+
+  ![Comando docker-compose](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/docker-compose.png)
   
 
   
