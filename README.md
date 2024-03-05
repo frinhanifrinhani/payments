@@ -48,4 +48,23 @@ Para instalação deste projeto é necessario ter instalados:
 - Execute o comando `php artisan migrate --force`
 
 ![Migration](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/migration.png)
+
+
+- Acesse no http://localhost:3000 no navegador.
+
+![Home](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/home.png)
+
+
+- Acesse o menu Cadastar e realize o cadastro de um usuário.
+  
+![Cadastrar usuario](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/register.png)
+
+
+- Após cadastrar um usuário, você será redirecionado para a tela de login, utilize o e-mail e senha que foram cadastrados.
+
+![login](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/login.png)
+  
+  
+  
+
   
