@@ -4,16 +4,10 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
-    volumes:
-      - ./api:/var/www/html
+    #volumes:
+    #  - ./api:/var/www/html
     ports:
       - "8080:80"
-  #  depends_on:
-  #    - mysql
-  #mysql:
-  #  image: mysql:latest
-  #  ports:
-  #    - "3306:3306"
   react-app:
     build:
       context: ./app
