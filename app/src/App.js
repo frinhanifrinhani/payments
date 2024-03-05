@@ -13,6 +13,7 @@ import Message from './components/layout/Message'
 import Home from './components/pages/Home'
 import Register from './components/pages/Auth/Register'
 import Login from './components/pages/Auth/Login'
+import Profile from './components/pages/User/Profile'
 import Balances from './components/pages/Balances/Balances'
 import AddBalance from './components/pages/Balances/AddBalance'
 import EditBalance from './components/pages/Balances/EditBalance'
@@ -32,6 +33,7 @@ function App() {
           <Routes>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/user/profile' element={<Profile />} />
             <Route path='/balance' element={<Balances />} />
             <Route path='/balance/add' element={<AddBalance />} />
             <Route path='/balance/edit/:id' element={<EditBalance />} />
