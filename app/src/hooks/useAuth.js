@@ -1,13 +1,17 @@
 import api from '../utils/api'
+import translations from '../utils/translate'
 
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useFlashMessage from './useFlashMessage'
 
-export default function useAuth() {
+export default function useAuth({ language }) {
     const [authenticated, setAuthenticated] = useState(false)
     const { setFlashMessage } = useFlashMessage()
     const navigate = useNavigate();
+
+    const lang = language || 'pt';
+    const getTranslation = key => translations[lang][key] || key;
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -54,7 +58,7 @@ export default function useAuth() {
 
         }
 
-        setFlashMessage(message, messageType)
+        setFlashMessage(getTranslation(message), messageType)
     }
 
     async function authUser(data) {
@@ -99,7 +103,7 @@ export default function useAuth() {
             messageType = 'error'
         }
 
-        setFlashMessage(message, messageType)
+        setFlashMessage(getTranslation(message), messageType)
 
     }
 
