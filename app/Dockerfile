@@ -17,6 +17,8 @@ RUN npm install
 
 RUN chmod -R 755 /var/www/html
 
-EXPOSE 5000
+RUN npm start
+
+EXPOSE 3000
 
 CMD ["npm", "start"]

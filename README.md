@@ -7,7 +7,6 @@ Este projeto permite ao usuário cadastrar saldos e pagamentos, sendo que cada p
 Para instalação deste projeto é necessario ter instalados:
 - Git
 - Docker
-- Mysql
 
 ## Como instalar
 
