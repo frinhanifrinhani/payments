@@ -17,7 +17,7 @@ function BalanceForm({ handleSubmit, balanceData, disabled, readonly, btnText })
 
     return (
 
-        < form onSubmit={submit} className={formStyles.form_container} >
+        < form onSubmit={submit} className={formStyles.form_container_large} >
             <Input
                 text="Nome"
                 type="texto"
