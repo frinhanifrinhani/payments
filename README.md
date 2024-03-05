@@ -16,7 +16,7 @@ Para instalação deste projeto é necessario ter instalados:
 ![Git clone](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/git_clone.png)
 
   
-- Abra o terminal na raiz do projeto que foi clonado.
+- Abra o terminal na raiz do projeto que foi clonado. Confirme que foram clonados os repositorios api e app, que são respectivamente o backend e o frontend.
 
 ![Projeto clonado](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/cd_lsla.png)
   
