@@ -50,7 +50,7 @@ Para instalação deste projeto é necessario ter instalados:
 ![Migration](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/migration.png)
 
 
-- Ainda dentro do container, execute os teste unitários como comando `php artisan test --testsuit=Unit`
+- Ainda dentro do container, execute os teste unitários como comando `php artisan test --testsuite=Unit`
 
 ![Testes unitários](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/teste-php-unit.png)
   
