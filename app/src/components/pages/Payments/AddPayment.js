@@ -19,7 +19,7 @@ function AddPayment({ language }) {
 
     async function registerPayment(payment) {
         let message;
-        let msgType = 'success'
+        let messageType = 'success'
 
         await api.post(`/payment`, payment, {
             headers: {
@@ -47,13 +47,13 @@ function AddPayment({ language }) {
 
                 message = messages
             })
-            msgType = 'error'
+            messageType = 'error'
 
         })
 
-        setFlashMessage(getTranslation(message), msgType)
+        setFlashMessage(getTranslation(message), messageType)
 
-        if (msgType !== 'error') {
+        if (messageType !== 'error') {
             navigate('/payment')
         }
     }

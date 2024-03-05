@@ -21,7 +21,7 @@ export default function useAuth() {
     async function register(user) {
 
         let message;
-        let msgType = 'success'
+        let messageType = 'success'
 
         try {
 
@@ -50,11 +50,11 @@ export default function useAuth() {
 
                 message = messages
             })
-            msgType = 'error'
+            messageType = 'error'
 
         }
 
-        setFlashMessage(message, msgType)
+        setFlashMessage(message, messageType)
     }
 
     async function authUser(data) {
@@ -68,7 +68,7 @@ export default function useAuth() {
 
     async function login(user) {
         let message;
-        let msgType = 'success'
+        let messageType = 'success'
 
         try {
 
@@ -96,16 +96,16 @@ export default function useAuth() {
 
                 message = messages
             })
-            msgType = 'error'
+            messageType = 'error'
         }
 
-        setFlashMessage(message, msgType)
+        setFlashMessage(message, messageType)
 
     }
 
     function logout() {
         const msgText = 'Logout realizado com sucesso!'
-        const msgType = 'success'
+        const messageType = 'success'
 
         setAuthenticated(false)
         localStorage.removeItem('token')
@@ -113,7 +113,7 @@ export default function useAuth() {
 
         navigate('/')
 
-        setFlashMessage(msgText, msgType)
+        setFlashMessage(msgText, messageType)
 
     }
 

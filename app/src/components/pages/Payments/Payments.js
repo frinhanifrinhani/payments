@@ -36,7 +36,7 @@ function Payments({ language }) {
 
     async function confirmRemovePayment() {
         setModalOpen(false);
-        let msgType = 'success'
+        let messageType = 'success'
 
         const data = await api.delete(`/payment/${paymentId}`)
             .then((response) => {
@@ -44,11 +44,11 @@ function Payments({ language }) {
                 return response.data
             })
             .catch((error) => {
-                msgType = 'error'
+                messageType = 'error'
                 return error.response.data
             })
 
-        setFlashMessage(getTranslation(data.message), msgType)
+        setFlashMessage(getTranslation(data.message), messageType)
 
     }
 

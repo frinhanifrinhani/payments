@@ -19,7 +19,7 @@ function AddBalance({ language }) {
 
     async function registerBalance(balance) {
         let message;
-        let msgType = 'success'
+        let messageType = 'success'
 
         await api.post(`/balance`, balance, {
             headers: {
@@ -47,13 +47,13 @@ function AddBalance({ language }) {
 
                 message = messages
             })
-            msgType = 'error'
+            messageType = 'error'
 
         })
 
-        setFlashMessage(getTranslation(message), msgType)
+        setFlashMessage(getTranslation(message), messageType)
 
-        if (msgType !== 'error') {
+        if (messageType !== 'error') {
             navigate('/balance')
         }
     }

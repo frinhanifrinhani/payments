@@ -36,7 +36,7 @@ function Balances({ language }) {
 
     async function confirmRemoveBalance() {
         setModalOpen(false);
-        let msgType = 'success'
+        let messageType = 'success'
 
         const data = await api.delete(`/balance/${balanceId}`)
             .then((response) => {
@@ -44,11 +44,11 @@ function Balances({ language }) {
                 return response.data
             })
             .catch((error) => {
-                msgType = 'error'
+                messageType = 'error'
                 return error.response.data
             })
 
-        setFlashMessage(getTranslation(data.message), msgType)
+        setFlashMessage(getTranslation(data.message), messageType)
 
     }
 

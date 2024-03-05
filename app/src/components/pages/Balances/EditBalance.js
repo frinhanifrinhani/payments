@@ -32,7 +32,7 @@ function EditBalance({ language }) {
 
     async function updateBalance(balance) {
         let message;
-        let msgType = 'success'
+        let messageType = 'success'
 
         const data = await api.patch(`/balance/${id}`, balance, {
             headers: {
@@ -58,10 +58,10 @@ function EditBalance({ language }) {
 
                 message = messages
             })
-            msgType = 'error'
+            messageType = 'error'
         })
 
-        setFlashMessage(getTranslation(message), msgType)
+        setFlashMessage(getTranslation(message), messageType)
     }
 
     return (

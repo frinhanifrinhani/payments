@@ -31,7 +31,7 @@ function EditPayment({ language }) {
 
     async function updatePayment(payment) {
         let message;
-        let msgType = 'success'
+        let messageType = 'success'
 
         await api.patch(`/payment/${id}`, payment, {
             headers: {
@@ -56,10 +56,10 @@ function EditPayment({ language }) {
 
                 message = messages
             })
-            msgType = 'error'
+            messageType = 'error'
         })
 
-        setFlashMessage(getTranslation(message), msgType)
+        setFlashMessage(getTranslation(message), messageType)
     }
 
     return (
