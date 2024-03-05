@@ -1,6 +1,6 @@
 # Payments
 
-Este projeto permite ao usuário cadastrar saldos e pagamentos, sendo que cada pagamento consome de um saldo cadastrado, desde que este saldo tenha valor restante.
+Este projeto permite ao usuário cadastrar saldos e pagamentos, onde um pagamento pode consumir parte de um saldo cadastrado ou até o valor total de um saldo, desde que este saldo tenha valor restante.
 
 ## Instalação
 
