@@ -12,8 +12,10 @@ Para instalação deste projeto é necessario ter instalados:
 ## Como instalar
 
 - Clone o projeto em um diretorio da sua escolha.
+  ![git clone](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/git_clone.png)
+  
 - Abra o terminal na raiz do projeto que foi clonado.
   
-  ![git clone](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/git_clone.png)
+  
 
   
