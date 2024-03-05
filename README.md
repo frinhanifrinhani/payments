@@ -34,11 +34,18 @@ Para instalação deste projeto é necessario ter instalados:
 
 
 
-- Verifique se os dois containers estão iniciados com o comando  `docker ps`
+- Verifique se os containers estão iniciados com o comando  `docker ps`
   
 ![Comando docker ps](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/docker-ps.png)
 
 
+- Acesse o container da API para executar as migrations, com o comando  `docker exec -it payments-api-1 bash`
+  OBS: payments-api-1 é o nome do container, como mostra a imagem seguinte.
+  
+![API bash](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/api_bash.png)
 
 
+- Execute o comando `php artisan migrate --force`
+
+![Migration](https://github.com/frinhanifrinhani/image-repo/blob/main/payments/migration.png)
   
