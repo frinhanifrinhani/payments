@@ -9,6 +9,11 @@ import Modal from 'react-modal';
 import styles from './Dashboard.module.css'
 
 function Balances({ language }) {
+    const formatter = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    });
+
     const [balances, setBalances] = useState([])
     const [token] = useState(localStorage.getItem('token'))
     const { setFlashMessage } = useFlashMessage()
@@ -93,9 +98,9 @@ function Balances({ language }) {
                         <div className={styles.balances} >
                             <div className={styles.record}>{balance.name}</div>
                             <div className={styles.record_header_big}>{balance.description.slice(0, 65)}...</div>
-                            <div className={styles.record}>R$ {balance.initial_value}</div>
-                            <div className={styles.record}>R$ {balance.used_value}</div>
-                            <div className={styles.record}>R$ {balance.remaining_value}</div>
+                            <div className={styles.record}>{formatter.format(balance.initial_value)}</div>
+                            <div className={styles.record}>{formatter.format(balance.used_value)}</div>
+                            <div className={styles.record}>{formatter.format(balance.remaining_value)}</div>
                             <div className={styles.record}>
                                 <Link className={styles.edit} to={`/balance/edit/${balance.id}`}>Editar</Link>
                                 <button className={styles.delete} onClick={() => {
