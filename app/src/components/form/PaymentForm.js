@@ -10,12 +10,13 @@ function PaymentForm({ handleSubmit, paymentData, disabled, readonly, btnText })
     const [token] = useState(localStorage.getItem('token'))
     const [balances, setBalances] = useState([]);
 
+    const formatter = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    });
+
     const formatCurrency = (input) => {
         const numberValue = input.replace(/[^\d]/g, '')
-        const formatter = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-        });
 
         return formatter.format(numberValue / 100);
     };
@@ -92,7 +93,7 @@ function PaymentForm({ handleSubmit, paymentData, disabled, readonly, btnText })
                 readonly={readonly ? true : false}
                 placeholder="Digite o valor do payment"
                 handleOnChange={handleChange}
-                value={payment.value || ''}
+                value={formatter.format(payment.value) || ''}
             />
 
             <Select

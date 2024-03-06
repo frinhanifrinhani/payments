@@ -5,12 +5,13 @@ import Input from "./Input"
 function BalanceForm({ handleSubmit, balanceData, disabled, readonly, btnText }) {
     const [balance, setBalance] = useState(balanceData || {})
 
+    const formatter = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    });
+
     const formatCurrency = (input) => {
         const numberValue = input.replace(/[^\d]/g, '')
-        const formatter = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-        });
 
         return formatter.format(numberValue / 100);
     };
@@ -72,7 +73,7 @@ function BalanceForm({ handleSubmit, balanceData, disabled, readonly, btnText })
                 disabled={disabled ? true : false}
                 readonly={readonly ? true : false}
                 handleOnChange={handleChange}
-                value={balance.initial_value || ''}
+                value={formatter.format(balance.initial_value) || ''}
             />
 
             <input type="submit" value={btnText} />
