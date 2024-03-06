@@ -2,6 +2,17 @@
 
 Este projeto permite ao usuário cadastrar saldos e pagamentos, onde um pagamento pode consumir parte de um saldo cadastrado ou até o valor total de um saldo, desde que este saldo tenha valor restante.
 
+## Arquitetura
+
+O projeto Payments utiliza arquitetura MVC de forma desacoplada, onde o frontend é separado do backend.
+
+O backend foi desenvolvido em PHP com Laravel 10, e o frontend foi desenvolvido em React.
+
+O banco de dados escolhido foi o Mysql
+
+O projeto está configurado para ser utilizado com Docker, a instalação deste projeto resultará em três containers no Docker,
+um para o banco de dados Mysql, um para a API PHP Laravel e outro container para o App React.
+
 ## Instalação
 
 Para instalação deste projeto é necessario ter instalados:
