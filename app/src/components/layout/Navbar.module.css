@@ -6,6 +6,15 @@
     color: #FFF;
 }
 
+.navbar_menu_itens {
+    display: flex;
+    gap: calc(55vw);
+    padding: 1em 10em 1em 8em;
+    background-color: #424242;
+    color: #FFF;
+
+}
+
 .navbar_logo {
     display: flex;
     align-items: center;

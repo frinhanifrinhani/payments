@@ -17,30 +17,43 @@ function Navbar() {
                 <img src={Logo} alt="Saldos" />
                 <h2>Payments</h2>
             </div>
-            <ul>
 
-                {authenticated ? (
-                    <>
-                        <li >
-                            <NavLink to="/balance">Saldos</NavLink>
-                        </li>
-                        <li >
-                            <NavLink to="/payment">Pagamentos</NavLink>
-                        </li>
-                        <li onClick={logout}>Sair</li>
-                    </>
-                ) : (
-                    <>
+
+            {authenticated ? (
+                <>
+                    <div className={styles.navbar_menu_itens}>
+                        <ul className={styles.navbar_menu}>
+                            <li >
+                                <NavLink to="/balance">Saldos</NavLink>
+                            </li>
+                            <li >
+                                <NavLink to="/payment">Pagamentos</NavLink>
+                            </li>
+
+                        </ul>
+                        <ul>
+
+                            <li onClick={logout}>Sair</li>
+                        </ul>
+                    </div>
+
+                </>
+            ) : (
+                <>
+                    <ul>
                         <li>
                             <NavLink to="/login">Entrar</NavLink>
                         </li>
                         <li>
                             <NavLink to="/register">Cadastrar</NavLink>
-                        </li></>
-                )}
+                        </li>
+                    </ul>
+                </>
+            )
+            }
 
-            </ul>
-        </nav>
+
+        </nav >
     )
 
 
