@@ -2,7 +2,7 @@ import api from '../../../utils/api'
 import translations from '../../../utils/translate'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-
+import { useNavigate } from 'react-router-dom'
 import styles from './AddPayment.module.css'
 
 import PaymentForm from '../../form/PaymentForm'
@@ -14,6 +14,7 @@ function EditPayment({ language }) {
     const [token] = useState(localStorage.getItem('token') || '')
     const { id } = useParams()
     const { setFlashMessage } = useFlashMessage()
+    const navigate = useNavigate()
 
     const lang = language || 'pt';
     const getTranslation = key => translations[lang][key] || key;
@@ -60,6 +61,9 @@ function EditPayment({ language }) {
         })
 
         setFlashMessage(getTranslation(message), messageType)
+        if (messageType !== 'error') {
+            navigate('/payment')
+        }
     }
 
     return (
