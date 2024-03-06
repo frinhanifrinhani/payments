@@ -5,12 +5,14 @@ import Input from "./Input"
 function BalanceForm({ handleSubmit, balanceData, disabled, readonly, btnText }) {
     const [balance, setBalance] = useState(balanceData || {})
 
+    const formatterToHandleChange = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    });
+
     const formatCurrency = (input) => {
         const numberValue = input.replace(/[^\d]/g, '')
-        const formatterToHandleChange = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-        });
+
         return formatterToHandleChange.format(numberValue / 100);
     };
 
