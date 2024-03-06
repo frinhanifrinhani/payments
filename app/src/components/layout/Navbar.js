@@ -13,10 +13,12 @@ function Navbar() {
 
     return (
         <nav className={styles.navbar}>
-            <div className={styles.navbar_logo}>
-                <img src={Logo} alt="Saldos" />
-                <h2>Payments</h2>
-            </div>
+            <NavLink to="/">
+                <div className={styles.navbar_logo} >
+                    <img src={Logo} alt="Saldos" />
+                    <h2>Payments</h2>
+                </div>
+            </NavLink>
 
 
             {authenticated ? (
