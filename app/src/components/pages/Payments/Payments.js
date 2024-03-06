@@ -24,6 +24,12 @@ function Payments({ language }) {
     const lang = language || 'pt';
     const getTranslation = key => translate[lang][key] || key;
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [paymentsPerPage] = useState(5);
+    const indexOfLastPayment = currentPage * paymentsPerPage;
+    const indexOfFirstPayment = indexOfLastPayment - paymentsPerPage;
+    const currentPayments = payments.slice(indexOfFirstPayment, indexOfLastPayment);
+
     useEffect(() => {
         api.get('/payment', {
             headers: {
@@ -75,6 +81,19 @@ function Payments({ language }) {
         setModalOpen(false);
     }
 
+    const nextPage = () => {
+        setCurrentPage(prevPage => prevPage + 1);
+    };
+
+    const prevPage = () => {
+        setCurrentPage(prevPage => prevPage - 1);
+    };
+
+    const goToPage = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+
     return (
         <section>
             <div className={styles.paymentslist_header}>
@@ -94,24 +113,43 @@ function Payments({ language }) {
                 )
                 }
 
-                {payments.length > 0 && (
-                    payments.map((payment) => (
-                        <div className={styles.payments} >
-                            <div className={styles.record}>{payment.name}</div>
-                            <div className={styles.record_header_big}>{payment.description.slice(0, 65)}...</div>
-                            <div className={styles.record}>{formatter.format(payment.value)}</div>
-                            <div className={styles.record}>
-                                <Link className={styles.edit} to={`/payment/edit/${payment.id}`}>Editar</Link>
-                                <button className={styles.delete} onClick={() => {
-                                    removePayment(payment.id)
-                                }} >Excluir</button>
+                {currentPayments.length > 0 && (
+                    currentPayments.map(payment => (
+                        <div key={payment.id}>{(<>
+                            <div className={styles.payments} >
+                                <div className={styles.record}>{payment.name}</div>
+                                <div className={styles.record_header_big}>{payment.description.slice(0, 65)}...</div>
+                                <div className={styles.record}>{formatter.format(payment.value)}</div>
+                                <div className={styles.record}>
+                                    <Link className={styles.edit} to={`/payment/edit/${payment.id}`}>Editar</Link>
+                                    <button className={styles.delete} onClick={() => {
+                                        removePayment(payment.id)
+                                    }} >Excluir</button>
+                                </div>
                             </div>
+
+
+                        </>)}
+
                         </div>
                     )
+
                     )
+
                 )
+
                 }
                 {payments.length === 0 && <p>Não existem saldos para serem mostrados</p>}
+
+                {currentPayments.length > 0 && (
+                    <>
+                        <div className={styles.pagination}>
+                            <div>Página {currentPage} de {Math.ceil(payments.length / paymentsPerPage)}</div>
+                            <button onClick={prevPage} disabled={currentPage === 1}>Anterior</button>
+                            <button onClick={nextPage} disabled={currentPage === Math.ceil(payments.length / paymentsPerPage)}>Próxima</button>
+                        </div>
+                    </>
+                )}
             </div>
 
             <Modal

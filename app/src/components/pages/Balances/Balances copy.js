@@ -1,7 +1,6 @@
 import api from '../../../utils/api'
 import translations from '../../../utils/translate'
 import { useState, useEffect } from "react"
-import { useNavigate } from 'react-router-dom'
 import { Link } from "react-router-dom"
 import useFlashMessage from '../../../hooks/useFlashMessage'
 
@@ -18,7 +17,6 @@ function Balances({ language }) {
     const [balances, setBalances] = useState([])
     const [token] = useState(localStorage.getItem('token'))
     const { setFlashMessage } = useFlashMessage()
-    const navigate = useNavigate()
 
     const [modalIsOpen, setModalOpen] = useState(false);
     const [balanceId, setBalanceIdToRemove] = useState(null);
@@ -27,10 +25,10 @@ function Balances({ language }) {
     const getTranslation = key => translations[lang][key] || key;
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [balancesPerPage] = useState(5);
-    const indexOfLastBalance = currentPage * balancesPerPage;
-    const indexOfFirstBalance = indexOfLastBalance - balancesPerPage;
-    const currentBalances = balances.slice(indexOfFirstBalance, indexOfLastBalance);
+    const [itemsPerPage] = useState(2);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = balances.slice(indexOfFirstItem, indexOfLastItem);
 
     useEffect(() => {
         api.get('/balance', {
@@ -62,9 +60,6 @@ function Balances({ language }) {
             })
 
         setFlashMessage(getTranslation(data.message), messageType)
-        if (messageType !== 'error') {
-            navigate('/balance')
-        }
 
     }
 
@@ -116,49 +111,39 @@ function Balances({ language }) {
                 )
                 }
 
-                {currentBalances.length > 0 && (
-                    currentBalances.map(balance => (
-                        <div key={balance.id}>{(<>
-                            <div className={styles.balances} >
-                                <div className={styles.record}>{balance.name}</div>
-                                <div className={styles.record_header_big}>{balance.description.slice(0, 65)}...</div>
-                                <div className={styles.record}>{formatter.format(balance.initial_value)}</div>
-                                <div className={styles.record}>{formatter.format(balance.used_value)}</div>
-                                <div className={styles.record}>{formatter.format(balance.remaining_value)}</div>
-                                <div className={styles.record}>
-                                    <Link className={styles.edit} to={`/balance/edit/${balance.id}`}>Editar</Link>
-                                    <button className={styles.delete} onClick={() => {
-                                        removeBalance(balance.id)
-                                    }} >Excluir</button>
-                                </div>
+                {currentItems.length > 0 && (
+                    currentItems.map((balance) => (
+                        <div className={styles.balances} >
+                            <div className={styles.record}>{balance.name}</div>
+                            <div className={styles.record_header_big}>{balance.description.slice(0, 65)}...</div>
+                            <div className={styles.record}>{formatter.format(balance.initial_value)}</div>
+                            <div className={styles.record}>{formatter.format(balance.used_value)}</div>
+                            <div className={styles.record}>{formatter.format(balance.remaining_value)}</div>
+                            <div className={styles.record}>
+                                <Link className={styles.edit} to={`/balance/edit/${balance.id}`}>Editar</Link>
+                                <button className={styles.delete} onClick={() => {
+                                    removeBalance(balance.id)
+                                }} >Excluir</button>
                             </div>
-
-
-                        </>)}
-
                         </div>
-
                     )
 
                     )
 
                 )
 
+
                 }
                 {balances.length === 0 && <p>Não existem saldos para serem mostrados</p>}
 
+                {currentItems.map(item => (
+                    <div key={item.id}>{(<>
 
+                    </>)}</div>
+                ))}
 
-
-                {currentBalances.length > 0 && (
-                    <>
-                        <div className={styles.pagination}>
-                            <div>Página {currentPage} de {Math.ceil(balances.length / balancesPerPage)}</div>
-                            <button onClick={prevPage} disabled={currentPage === 1}>Anterior</button>
-                            <button onClick={nextPage} disabled={currentPage === Math.ceil(balances.length / balancesPerPage)}>Próxima</button>
-                        </div>
-                    </>
-                )}
+                <button onClick={prevPage} disabled={currentPage === 1}>Anterior</button>
+                <button onClick={nextPage} disabled={currentPage === Math.ceil(balances.length / itemsPerPage)}>Próxima</button>
             </div>
 
             <Modal

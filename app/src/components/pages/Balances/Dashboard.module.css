@@ -145,3 +145,36 @@ a.edit:hover,
     padding: 10px 25px;
     float: right;
 }
+
+
+.pagination {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    gap: 2rem;
+    color: #555;
+
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+}
+
+.pagination button:disabled:hover {
+    opacity: 0.5;
+    color: #555;
+}
+
+.pagination button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: 600;
+    color: #555;
+}
+
+.pagination button:hover {
+    color: #1c8a42;
+
+}
