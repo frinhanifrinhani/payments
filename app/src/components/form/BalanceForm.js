@@ -21,7 +21,7 @@ function BalanceForm({ handleSubmit, balanceData, disabled, readonly, btnText })
         < form onSubmit={submit} className={formStyles.form_container_large} >
             <Input
                 text="Nome"
-                type="texto"
+                type="text"
                 name="name"
                 placeholder="Digite o nome do saldo"
                 handleOnChange={handleChange}
@@ -29,12 +29,13 @@ function BalanceForm({ handleSubmit, balanceData, disabled, readonly, btnText })
             />
             <Input
                 text="Descrição"
-                type="texto"
+                type="text"
                 name="description"
                 placeholder="Digite a descrição do saldo"
                 handleOnChange={handleChange}
                 value={balance.description || ''}
             />
+
             <Input
                 text="Valor inicial"
                 type="number"
