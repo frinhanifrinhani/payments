@@ -5,9 +5,10 @@ import Input from "./Input"
 function BalanceForm({ handleSubmit, balanceData, disabled, readonly, btnText }) {
     const [balance, setBalance] = useState(balanceData || {})
 
-    function hanleChange(e) {
+    function handleChange(e) {
         setBalance({ ...balance, [e.target.name]: e.target.value })
     }
+
 
     function submit(e) {
         e.preventDefault()
@@ -23,7 +24,7 @@ function BalanceForm({ handleSubmit, balanceData, disabled, readonly, btnText })
                 type="texto"
                 name="name"
                 placeholder="Digite o nome do saldo"
-                handleOnChange={hanleChange}
+                handleOnChange={handleChange}
                 value={balance.name || ''}
             />
             <Input
@@ -31,7 +32,7 @@ function BalanceForm({ handleSubmit, balanceData, disabled, readonly, btnText })
                 type="texto"
                 name="description"
                 placeholder="Digite a descrição do saldo"
-                handleOnChange={hanleChange}
+                handleOnChange={handleChange}
                 value={balance.description || ''}
             />
             <Input
@@ -40,7 +41,7 @@ function BalanceForm({ handleSubmit, balanceData, disabled, readonly, btnText })
                 name="initial_value"
                 disabled={disabled ? true : false}
                 readonly={readonly ? true : false}
-                handleOnChange={hanleChange}
+                handleOnChange={handleChange}
                 value={balance.initial_value || ''}
             />
 

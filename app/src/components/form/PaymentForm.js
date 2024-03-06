@@ -23,7 +23,7 @@ function PaymentForm({ handleSubmit, paymentData, disabled, readonly, btnText })
         })
     }, [token])
 
-    function hanleChange(e) {
+    function handleChange(e) {
         setPayment({ ...payment, [e.target.name]: e.target.value })
     }
 
@@ -46,7 +46,7 @@ function PaymentForm({ handleSubmit, paymentData, disabled, readonly, btnText })
                 type="texto"
                 name="name"
                 placeholder="Digite o nome do payment"
-                handleOnChange={hanleChange}
+                handleOnChange={handleChange}
                 value={payment.name || ''}
             />
 
@@ -55,7 +55,7 @@ function PaymentForm({ handleSubmit, paymentData, disabled, readonly, btnText })
                 type="text"
                 name="description"
                 placeholder="Digite a descrição do payment"
-                handleOnChange={hanleChange}
+                handleOnChange={handleChange}
                 value={payment.description || ''}
             />
 
@@ -66,7 +66,7 @@ function PaymentForm({ handleSubmit, paymentData, disabled, readonly, btnText })
                 disabled={disabled ? true : false}
                 readonly={readonly ? true : false}
                 placeholder="Digite o valor do payment"
-                handleOnChange={hanleChange}
+                handleOnChange={handleChange}
                 value={payment.value || ''}
             />
 
