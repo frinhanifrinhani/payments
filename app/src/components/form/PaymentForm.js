@@ -5,13 +5,20 @@ import formStyles from './Form.module.css'
 import Input from "./Input"
 import Select from "./SelectBalance"
 
-
 function PaymentForm({ handleSubmit, paymentData, disabled, readonly, btnText }) {
     const [payment, setPayment] = useState(paymentData || {})
     const [token] = useState(localStorage.getItem('token'))
     const [balances, setBalances] = useState([]);
 
+    const formatCurrency = (input) => {
+        const numberValue = input.replace(/[^\d]/g, '')
+        const formatter = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+        });
 
+        return formatter.format(numberValue / 100);
+    };
 
     useEffect(() => {
         api.get('/balance', {
@@ -24,7 +31,17 @@ function PaymentForm({ handleSubmit, paymentData, disabled, readonly, btnText })
     }, [token])
 
     function handleChange(e) {
-        setPayment({ ...payment, [e.target.name]: e.target.value })
+
+        const targetName = e.target.name
+
+        const input = e.target.value
+        const formattedValue = formatCurrency(input);
+
+        setPayment({
+            ...payment,
+            [targetName]: targetName === 'value' ? formattedValue : e.target.value
+
+        });
     }
 
     function handleBalance(e) {
@@ -33,8 +50,16 @@ function PaymentForm({ handleSubmit, paymentData, disabled, readonly, btnText })
 
     function submit(e) {
         e.preventDefault()
+        const cleanedValue = payment.value
+            .replace(/[^\d]/g, '')
+            .replace(/^0+/g, '');
 
-        handleSubmit(payment)
+        const updatedPayment = {
+            ...payment,
+            value: parseFloat(cleanedValue) / 100
+        };
+
+        handleSubmit(updatedPayment)
     }
 
     return (
@@ -61,7 +86,7 @@ function PaymentForm({ handleSubmit, paymentData, disabled, readonly, btnText })
 
             <Input
                 text="Valor"
-                type="number"
+                type="text"
                 name="value"
                 disabled={disabled ? true : false}
                 readonly={readonly ? true : false}
