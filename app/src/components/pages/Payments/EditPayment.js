@@ -73,6 +73,7 @@ function EditPayment({ language }) {
                     btnText='Atualizar'
                     disabled='true'
                     readonly='true'
+                    edit='true'
                     paymentData={payment}
                 />
             )}

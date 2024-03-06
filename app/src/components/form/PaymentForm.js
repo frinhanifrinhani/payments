@@ -5,7 +5,7 @@ import formStyles from './Form.module.css'
 import Input from "./Input"
 import Select from "./SelectBalance"
 
-function PaymentForm({ handleSubmit, paymentData, disabled, readonly, btnText }) {
+function PaymentForm({ handleSubmit, paymentData, disabled, readonly, edit, btnText }) {
     const [payment, setPayment] = useState(paymentData || {})
     const [token] = useState(localStorage.getItem('token'))
     const [balances, setBalances] = useState([]);
@@ -93,7 +93,7 @@ function PaymentForm({ handleSubmit, paymentData, disabled, readonly, btnText })
                 readonly={readonly ? true : false}
                 placeholder="Digite o valor do payment"
                 handleOnChange={handleChange}
-                value={payment.value || ''}
+                value={edit ? formatter.format(payment.value) : payment.value}
             />
 
             <Select

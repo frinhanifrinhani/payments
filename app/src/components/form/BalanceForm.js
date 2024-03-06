@@ -2,10 +2,10 @@ import { useState } from "react"
 import formStyles from './Form.module.css'
 import Input from "./Input"
 
-function BalanceForm({ handleSubmit, balanceData, disabled, readonly, btnText }) {
+function BalanceForm({ handleSubmit, balanceData, disabled, readonly, edit, btnText }) {
     const [balance, setBalance] = useState(balanceData || {})
 
-    const formatterToHandleChange = new Intl.NumberFormat('pt-BR', {
+    const formatter = new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'BRL',
     });
@@ -13,7 +13,7 @@ function BalanceForm({ handleSubmit, balanceData, disabled, readonly, btnText })
     const formatCurrency = (input) => {
         const numberValue = input.replace(/[^\d]/g, '')
 
-        return formatterToHandleChange.format(numberValue / 100);
+        return formatter.format(numberValue / 100);
     };
 
     function handleChange(e) {
@@ -72,7 +72,7 @@ function BalanceForm({ handleSubmit, balanceData, disabled, readonly, btnText })
                 disabled={disabled ? true : false}
                 readonly={readonly ? true : false}
                 handleOnChange={handleChange}
-                value={balance.initial_value || ''}
+                value={edit ? formatter.format(balance.initial_value) : balance.initial_value}
             />
 
             <input type="submit" value={btnText} />

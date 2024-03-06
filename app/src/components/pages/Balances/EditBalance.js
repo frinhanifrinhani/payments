@@ -82,6 +82,7 @@ function EditBalance({ language }) {
                     btnText='Atualizar'
                     disabled='true'
                     readonly='true'
+                    edit='true'
                     balanceData={balance}
                 />
             )}
