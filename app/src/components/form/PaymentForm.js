@@ -50,16 +50,20 @@ function PaymentForm({ handleSubmit, paymentData, disabled, readonly, edit, btnT
 
     function submit(e) {
         e.preventDefault()
-        const cleanedValue = payment.value
-            .replace(/[^\d]/g, '')
-            .replace(/^0+/g, '');
+        if (payment.value) {
+            const cleanedValue = payment.value
+                .replace(/[^\d]/g, '')
+                .replace(/^0+/g, '');
 
-        const updatedPayment = {
-            ...payment,
-            value: parseFloat(cleanedValue) / 100
-        };
+            const updatedPayment = {
+                ...payment,
+                value: parseFloat(cleanedValue) / 100
+            };
 
-        handleSubmit(updatedPayment)
+            handleSubmit(updatedPayment);
+        } else {
+            handleSubmit(payment);
+        }
     }
 
     return (
@@ -92,7 +96,7 @@ function PaymentForm({ handleSubmit, paymentData, disabled, readonly, edit, btnT
                 readonly={readonly ? true : false}
                 placeholder="Digite o valor do payment"
                 handleOnChange={handleChange}
-                value={edit ? formatter.format(payment.value) : payment.value}
+                value={payment.value || ''}
             />
 
             <Select

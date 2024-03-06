@@ -31,18 +31,22 @@ function BalanceForm({ handleSubmit, balanceData, disabled, readonly, edit, btnT
 
     function submit(e) {
         e.preventDefault()
-        const cleanedInitialValue = balance.initial_value
-            .replace(/[^\d]/g, '')
-            .replace(/^0+/g, '');
 
-        const updatedBalance = {
-            ...balance,
-            initial_value: parseFloat(cleanedInitialValue) / 100
-        };
+        if (balance.initial_value) {
+            const cleanedInitialValue = balance.initial_value
+                .replace(/[^\d]/g, '')
+                .replace(/^0+/g, '');
 
-        handleSubmit(updatedBalance);
+            const updatedBalance = {
+                ...balance,
+                initial_value: parseFloat(cleanedInitialValue) / 100
+            };
 
-        handleSubmit(balance)
+            handleSubmit(updatedBalance);
+        } else {
+            handleSubmit(balance);
+        }
+
     }
 
     return (
@@ -69,10 +73,11 @@ function BalanceForm({ handleSubmit, balanceData, disabled, readonly, edit, btnT
                 text="Valor inicial"
                 type="text"
                 name="initial_value"
+                placeholder="Digite o valor do saldo"
                 disabled={disabled ? true : false}
                 readonly={readonly ? true : false}
                 handleOnChange={handleChange}
-                value={edit ? formatter.format(balance.initial_value) : balance.initial_value}
+                value={balance.initial_value || ''}
             />
 
             <input type="submit" value={btnText} />
