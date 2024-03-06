@@ -4,9 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import styles from './AddPayment.module.css'
-
 import PaymentForm from '../../form/PaymentForm'
-
 import useFlashMessage from '../../../hooks/useFlashMessage'
 
 function EditPayment({ language }) {

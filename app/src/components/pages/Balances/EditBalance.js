@@ -2,13 +2,9 @@ import api from '../../../utils/api'
 import translations from '../../../utils/translate'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-
 import { useParams } from 'react-router-dom'
-
 import styles from './AddBalance.module.css'
-
 import BalanceForm from '../../form/BalanceForm'
-
 import useFlashMessage from '../../../hooks/useFlashMessage'
 
 function EditBalance({ language }) {

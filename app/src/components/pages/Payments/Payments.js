@@ -4,9 +4,7 @@ import { useState, useEffect } from "react"
 import { useNavigate } from 'react-router-dom'
 import { Link } from "react-router-dom"
 import useFlashMessage from '../../../hooks/useFlashMessage'
-
 import Modal from 'react-modal';
-
 import styles from './Dashboard.module.css'
 
 function Payments({ language }) {

@@ -1,12 +1,9 @@
 import api from '../../../utils/api'
 import translations from '../../../utils/translate'
 import styles from './AddPayment.module.css'
-
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
 import useFlashMessage from '../../../hooks/useFlashMessage'
-
 import PaymentForm from '../../form/PaymentForm'
 
 function AddPayment({ language }) {

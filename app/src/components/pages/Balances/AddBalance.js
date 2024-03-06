@@ -1,12 +1,9 @@
 import api from '../../../utils/api'
 import translations from '../../../utils/translate'
 import styles from './AddBalance.module.css'
-
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
 import useFlashMessage from '../../../hooks/useFlashMessage'
-
 import BalanceForm from '../../form/BalanceForm'
 
 function AddBalance({ language }) {
