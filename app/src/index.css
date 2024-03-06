@@ -12,6 +12,10 @@ h1 {
   text-align: center;
 }
 
+h4 {
+  color: #555;
+}
+
 .bold {
   font-weight: bold;
   color: #555;
