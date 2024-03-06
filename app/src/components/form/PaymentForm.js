@@ -93,7 +93,7 @@ function PaymentForm({ handleSubmit, paymentData, disabled, readonly, btnText })
                 readonly={readonly ? true : false}
                 placeholder="Digite o valor do payment"
                 handleOnChange={handleChange}
-                value={formatter.format(payment.value) || ''}
+                value={payment.value || ''}
             />
 
             <Select
